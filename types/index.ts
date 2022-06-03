@@ -1,7 +1,7 @@
 type OwConfig = {
-    element: HTMLElement
+  element: HTMLElement | null
 }
 
 export type {
-    OwConfig
+  OwConfig
 }
