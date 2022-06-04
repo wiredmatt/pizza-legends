@@ -6,12 +6,17 @@ type OwConfig = {
   map?: Map | null
 }
 
+type Animations<T> = {
+  [key in keyof T]: [number, number][]
+}
+
 type SpriteConfig = {
   src: string
   shadow?: string
-  animations?: object
+  animations?: { [key: string]: [number, number][] }
   currentAnimation?: string
   currentAnimationFrame?: number
+  animationFrameLimit?: number
   gameObject: GameObject
 }
 
@@ -43,5 +48,6 @@ export type {
   MapConfig,
   Direction,
   DirectionUpdate,
-  KeyMap
+  KeyMap,
+  Animations
 }

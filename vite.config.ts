@@ -11,7 +11,7 @@ const alias = Object.entries(compilerOptions.paths).reduce(
     const path = value.substring(0, value.length - 2)
     return {
       ...acc,
-      [aliasKey]: resolve(__dirname, path),
+      [aliasKey]: resolve(__dirname, path)
     }
   },
   {}
@@ -19,7 +19,7 @@ const alias = Object.entries(compilerOptions.paths).reduce(
 
 export default defineConfig({
   resolve: {
-    alias,
+    alias
   },
   build: {
     rollupOptions: {
@@ -31,9 +31,9 @@ export default defineConfig({
           'typeof EXPERIMENTAL': "'true'",
           'typeof PLUGIN_CAMERA3D': "'false'",
           'typeof PLUGIN_FBINSTANT': "'false'",
-          'typeof FEATURE_SOUND': "'true'",
-        }),
-      ],
-    },
-  },
+          'typeof FEATURE_SOUND': "'true'"
+        })
+      ]
+    }
+  }
 })

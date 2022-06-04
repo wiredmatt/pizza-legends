@@ -1,3 +1,4 @@
+import logger from '@logger'
 import { SpriteConfig } from '@pl-types'
 import GameObject from './gameObject'
 
@@ -7,9 +8,11 @@ class Sprite {
   image: HTMLImageElement
   shadow?: HTMLImageElement
   gameObject: GameObject
-  animations: object
+  animations: { [key: string]: [number, number][] }
   currentAnimation: string
   currentAnimationFrame: number
+  animationFrameLimit: number
+  animationFrameProgress: number
 
   constructor(config: SpriteConfig) {
     this.image = new Image()
@@ -32,7 +35,30 @@ class Sprite {
     this.currentAnimation = config.currentAnimation || 'idleDown'
     this.currentAnimationFrame =
       config.currentAnimationFrame || 0
+
+    this.animationFrameLimit = config.animationFrameLimit || 16
+    this.animationFrameProgress = this.animationFrameLimit
+
     this.gameObject = config.gameObject
+  }
+
+  get frame() {
+    if (
+      Object.keys(this.animations).includes(
+        this.currentAnimation
+      )
+    ) {
+      const animation = this.animations[this.currentAnimation]
+      const frame = animation[this.currentAnimationFrame]
+
+      return frame
+    } else {
+      logger.error(
+        `${typeof this} - ${typeof arguments.callee.name}`,
+        `currentAnimation: ${this.currentAnimation}
+        animations: ${Object.keys(this.animations).join(',')}`
+      )
+    }
   }
 
   draw(ctx?: CanvasRenderingContext2D | null) {

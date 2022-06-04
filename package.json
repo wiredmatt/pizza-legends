@@ -4,9 +4,9 @@
   "description": "Pizza Legends remake in TS",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
+    "dev": "FORCE_COLOR=1 vite",
+    "build": "FORCE_COLOR=1 vite build",
+    "serve": "FORCE_COLOR=1 vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {
@@ -23,9 +23,10 @@
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-replace": "^3.0.1",
-    "@types/node": "^17.0.10",
+    "@types/node": "^17.0.39",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
+    "chalk": "^5.0.1",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",

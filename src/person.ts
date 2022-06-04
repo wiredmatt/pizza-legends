@@ -1,5 +1,24 @@
-import { Direction, GameObjectConfig } from '@pl-types'
+import {
+  Animations,
+  Direction,
+  GameObjectConfig
+} from '@pl-types'
 import GameObject from './gameObject'
+
+type PersonAnimations = Animations<{
+  idleDown: [[number, number]]
+  walkDown: [[number, number]]
+}>
+
+const animations: PersonAnimations = {
+  idleDown: [[0, 0]],
+  walkDown: [
+    [1, 0],
+    [0, 0],
+    [3, 0],
+    [0, 0]
+  ]
+}
 
 class Person extends GameObject {
   movingProgressRemaining: number
@@ -9,6 +28,8 @@ class Person extends GameObject {
     super(config)
     this.movingProgressRemaining = 0
     this.isPlayerControlled = config.isPlayerControlled || false
+
+    this.sprite
   }
 
   updatePosition() {
