@@ -1,4 +1,5 @@
 import { OwConfig } from '@pl-types'
+import GameObject from './gameObject'
 
 class Overworld {
   element: HTMLElement | null
@@ -18,14 +19,23 @@ class Overworld {
     }
     image.src = '/images/maps/DemoLower.png'
 
-    const x = 0
-    const y = 0
+    const hero = new GameObject({
+      x: 5,
+      y: 6,
+      shadow: '/images/characters/shadow.png',
+    })
 
-    const hero = new Image()
-    hero.onload = () => {
-      this.ctx?.drawImage(hero, 0, 0, 32, 32, x, y, 32, 32)
-    }
-    hero.src = '/images/characters/people/hero.png'
+    const npc1 = new GameObject({
+      x: 7,
+      y: 9,
+      src: '/images/characters/people/npc1.png',
+      shadow: '/images/characters/shadow.png',
+    })
+
+    setTimeout(() => {
+      hero.sprite.draw(this.ctx)
+      npc1.sprite.draw(this.ctx)
+    }, 200)
   }
 }
 

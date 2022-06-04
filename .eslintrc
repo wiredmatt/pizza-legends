@@ -28,7 +28,27 @@
       2,
       2
     ],
-    "semi": 0
+    "semi": 0,
+    "function-paren-newline": [
+      "error",
+      "consistent"
+    ],
+    "indent": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": false,
+        "bracketSpacing": true,
+        "arrowParens": "always",
+        "parser": "typescript",
+        "endOfLine": "auto",
+        "printWidth": 65
+      }
+    ]
   },
   "env": {
     "browser": true,
