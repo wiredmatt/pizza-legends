@@ -22,6 +22,9 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
+      "@data/*": [
+        "./data/*"
+      ],
       "@pl-types": [
         "./types"
       ],
@@ -31,7 +34,8 @@
     }
   },
   "include": [
-    "./src/**/*",
-    "./types/**/*"
-  ],
+    "./data/**/*",
+    "./types/**/*",
+    "./src/**/*"
+  ]
 }

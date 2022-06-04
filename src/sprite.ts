@@ -27,7 +27,7 @@ class Sprite {
     }
 
     this.animations = config.animations || {
-      idleDown: [[0, 0]],
+      idleDown: [[0, 0]]
     }
     this.currentAnimation = config.currentAnimation || 'idleDown'
     this.currentAnimationFrame =
@@ -36,9 +36,8 @@ class Sprite {
   }
 
   draw(ctx?: CanvasRenderingContext2D | null) {
-    const x = this.gameObject.x * 16 - 8
-    const y = this.gameObject.y * 16 - 18
-    console.log('drawing', this.shadow)
+    const x = this.gameObject.x - 8
+    const y = this.gameObject.y - 18
 
     this.shadow && ctx?.drawImage(this.shadow, x, y)
 

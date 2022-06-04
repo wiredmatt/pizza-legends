@@ -1,7 +1,9 @@
 import GameObject from '@/gameObject'
+import Map from '@/map'
 
 type OwConfig = {
   element: HTMLElement | null
+  map?: Map | null
 }
 
 type SpriteConfig = {
@@ -13,11 +15,33 @@ type SpriteConfig = {
   gameObject: GameObject
 }
 
+type Direction = 'down' | 'up' | 'left' | 'right'
+
+type DirectionUpdate = Record<string, ['x' | 'y', number]>
+
 type GameObjectConfig = {
-  src?: string
-  shadow?: string
   x: number
   y: number
+  direction?: Direction
+  src?: string
+  shadow?: string
+  isPlayerControlled?: boolean
 }
 
-export type { OwConfig, SpriteConfig, GameObjectConfig }
+type MapConfig = {
+  gameObjects: GameObject[]
+  lowerSrc: string
+  upperSrc: string
+}
+
+type KeyMap = Record<KeyboardEvent['key'], Direction>
+
+export type {
+  OwConfig,
+  SpriteConfig,
+  GameObjectConfig,
+  MapConfig,
+  Direction,
+  DirectionUpdate,
+  KeyMap
+}
