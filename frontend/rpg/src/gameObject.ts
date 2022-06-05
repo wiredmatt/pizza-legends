@@ -25,7 +25,8 @@ class GameObject {
     this.sprite = new Sprite({
       src: config.src || '/images/characters/people/hero.png',
       shadow: config.shadow,
-      gameObject: this
+      gameObject: this,
+      animations: config.animations
     })
   }
 

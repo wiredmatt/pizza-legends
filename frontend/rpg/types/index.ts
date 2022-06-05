@@ -44,7 +44,13 @@ type Animations<T> = {
 
 type PersonAnimations = Animations<{
   idleDown: [[number, number]]
+  idleRight: [[number, number]]
+  idleLeft: [[number, number]]
+  idleUp: [[number, number]]
   walkDown: [[number, number]]
+  walkUp: [[number, number]]
+  walkLeft: [[number, number]]
+  walkRight: [[number, number]]
 }>
 
 export type {

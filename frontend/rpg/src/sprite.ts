@@ -32,11 +32,11 @@ class Sprite {
     this.animations = config.animations || {
       idleDown: [[0, 0]]
     }
-    this.currentAnimation = config.currentAnimation || 'idleDown'
-    this.currentAnimationFrame =
-      config.currentAnimationFrame || 0
 
-    this.animationFrameLimit = config.animationFrameLimit || 16
+    this.currentAnimation = config.currentAnimation || 'idleDown'
+    this.currentAnimationFrame = 0
+
+    this.animationFrameLimit = config.animationFrameLimit || 8
     this.animationFrameProgress = this.animationFrameLimit
 
     this.gameObject = config.gameObject
@@ -51,7 +51,6 @@ class Sprite {
     ) {
       const animation = this.animations[this.currentAnimation]
       const frame = animation[this.currentAnimationFrame]
-
       return frame
     } else {
       logger.error(
@@ -65,6 +64,14 @@ class Sprite {
       )
 
       return undefined
+    }
+  }
+
+  setAnimation(key: string) {
+    if (this.currentAnimation !== key) {
+      this.currentAnimation = key
+      this.currentAnimationFrame = 0
+      this.animationFrameProgress = this.animationFrameLimit
     }
   }
 
@@ -87,7 +94,9 @@ class Sprite {
     const x = this.gameObject ? this.gameObject.x - 8 : 0
     const y = this.gameObject ? this.gameObject.y - 18 : 0
 
-    this.shadow && ctx?.drawImage(this.shadow, x, y)
+    this.shadow &&
+      this.isShadowLoaded &&
+      ctx?.drawImage(this.shadow, x, y)
 
     let [frameX, frameY] = [0, 0]
 
@@ -107,7 +116,6 @@ class Sprite {
         32,
         32
       )
-
     this.updateAnimationProgress()
   }
 }

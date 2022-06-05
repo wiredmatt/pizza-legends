@@ -1,19 +1,6 @@
-import {
-  Direction,
-  GameObjectConfig,
-  PersonAnimations
-} from '@pl-types'
+import { Direction, GameObjectConfig } from '@pl-types'
 import GameObject from './gameObject'
-
-const animations: PersonAnimations = {
-  idleDown: [[0, 0]],
-  walkDown: [
-    [1, 0],
-    [0, 0],
-    [3, 0],
-    [0, 0]
-  ]
-}
+import utils from './utils'
 
 class Person extends GameObject {
   movingProgressRemaining: number
@@ -23,8 +10,6 @@ class Person extends GameObject {
     super(config)
     this.movingProgressRemaining = 0
     this.isPlayerControlled = config.isPlayerControlled || false
-
-    this.sprite.animations = config.animations || animations
   }
 
   updatePosition() {
@@ -33,13 +18,13 @@ class Person extends GameObject {
         this.directionUpdate[this.direction]
 
       this[property] += change
-      this.movingProgressRemaining -= 1
+      this.movingProgressRemaining -= 2
     }
   }
 
   update(state: { direction: Direction }): void {
     this.updatePosition()
-
+    this.updateSprite(state)
     if (
       this.isPlayerControlled &&
       this.movingProgressRemaining === 0 &&
@@ -47,6 +32,26 @@ class Person extends GameObject {
     ) {
       this.direction = state.direction
       this.movingProgressRemaining = 16
+    }
+  }
+
+  updateSprite(state: { direction: Direction }) {
+    if (
+      this.isPlayerControlled &&
+      this.movingProgressRemaining === 0 &&
+      !state.direction
+    ) {
+      this.sprite.setAnimation(
+        `idle${utils.capitalize(this.direction)}`
+      )
+      return
+    }
+
+    if (this.movingProgressRemaining > 0) {
+      this.sprite.setAnimation(
+        `walk${utils.capitalize(this.direction)}`
+      )
+      return
     }
   }
 }
