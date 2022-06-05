@@ -1,28 +1,33 @@
 import replace from '@rollup/plugin-replace'
 import { defineConfig } from 'vite'
-
-import { compilerOptions } from './tsconfig.json'
-
-import { resolve } from 'path'
-
-const alias = Object.entries(compilerOptions.paths).reduce(
-  (acc, [key, [value]]) => {
-    const aliasKey = key.substring(0, key.length - 2)
-    const path = value.substring(0, value.length - 2)
-    return {
-      ...acc,
-      [aliasKey]: resolve(__dirname, path)
-    }
-  },
-  {}
-)
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+        rewrite(path) {
+          return path.replace(/^\/api/, '')
+        },
+        secure: false
+      }
+    }
+  },
+  plugins: [
+    tsconfigPaths({
+      root: __dirname
+    })
+  ],
   resolve: {
-    alias
+    alias: {
+      path: 'path-browserify'
+    }
   },
   build: {
     rollupOptions: {
+      external: ['fs/promises'],
       plugins: [
         //  Toggle the booleans here to enable / disable Phaser 3 features:
         replace({

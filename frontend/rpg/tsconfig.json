@@ -4,33 +4,34 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ESNext"
+      "ESNext",
+      "ES6"
     ],
     "types": [
-      "vite/client",
-      "node"
+      "vite/client"
     ],
     "allowJs": false,
     "skipLibCheck": false,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
-      "@data/*": [
-        "./data/*"
+      "@data": [
+        "./data"
       ],
       "@logger": [
-        "./logger"
+        "./logger/"
       ],
       "@pl-types": [
-        "./types"
+        "./types/"
       ],
       "@/*": [
         "./src/*"
@@ -39,8 +40,8 @@
   },
   "include": [
     "./data/**/*",
-    "./types/**/*",
-    "./src/**/*",
     "./logger/**/*",
+    "./types/**/*",
+    "./src/**/*"
   ]
 }

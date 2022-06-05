@@ -7,8 +7,8 @@ class Sprite {
   isShadowLoaded = false
   image: HTMLImageElement
   shadow?: HTMLImageElement
-  gameObject: GameObject
-  animations: { [key: string]: [number, number][] }
+  gameObject?: GameObject
+  animations?: { [key: string]: [number, number][] }
   currentAnimation: string
   currentAnimationFrame: number
   animationFrameLimit: number
@@ -44,6 +44,7 @@ class Sprite {
 
   get frame() {
     if (
+      this.animations &&
       Object.keys(this.animations).includes(
         this.currentAnimation
       )
@@ -56,19 +57,58 @@ class Sprite {
       logger.error(
         `${typeof this} - ${typeof arguments.callee.name}`,
         `currentAnimation: ${this.currentAnimation}
-        animations: ${Object.keys(this.animations).join(',')}`
+        animations: ${
+          this.animations
+            ? Object.keys(this.animations).join(',')
+            : 'null'
+        }`
       )
+
+      return undefined
+    }
+  }
+
+  updateAnimationProgress() {
+    if (this.animationFrameProgress > 0) {
+      this.animationFrameProgress = -1
+      return
+    }
+
+    this.animationFrameProgress = this.animationFrameLimit
+
+    this.currentAnimationFrame += 1
+
+    if (this.frame === undefined) {
+      this.currentAnimationFrame = 0
     }
   }
 
   draw(ctx?: CanvasRenderingContext2D | null) {
-    const x = this.gameObject.x - 8
-    const y = this.gameObject.y - 18
+    const x = this.gameObject ? this.gameObject.x - 8 : 0
+    const y = this.gameObject ? this.gameObject.y - 18 : 0
 
     this.shadow && ctx?.drawImage(this.shadow, x, y)
 
+    let [frameX, frameY] = [0, 0]
+
+    if (this.frame) {
+      ;[frameX, frameY] = this.frame
+    }
+
     this.isLoaded &&
-      ctx?.drawImage(this.image, 0, 0, 32, 32, x, y, 32, 32)
+      ctx?.drawImage(
+        this.image,
+        frameX * 32,
+        frameY * 32,
+        32,
+        32,
+        x,
+        y,
+        32,
+        32
+      )
+
+    this.updateAnimationProgress()
   }
 }
 

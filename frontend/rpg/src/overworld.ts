@@ -1,4 +1,4 @@
-import maps from '@data/maps'
+import { maps } from '@data'
 import type { OwConfig } from '@pl-types'
 import DirectionInput from './directionInput'
 import Map from './map'

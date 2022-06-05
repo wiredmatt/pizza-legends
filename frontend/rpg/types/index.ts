@@ -6,10 +6,6 @@ type OwConfig = {
   map?: Map | null
 }
 
-type Animations<T> = {
-  [key in keyof T]: [number, number][]
-}
-
 type SpriteConfig = {
   src: string
   shadow?: string
@@ -17,7 +13,7 @@ type SpriteConfig = {
   currentAnimation?: string
   currentAnimationFrame?: number
   animationFrameLimit?: number
-  gameObject: GameObject
+  gameObject?: GameObject
 }
 
 type Direction = 'down' | 'up' | 'left' | 'right'
@@ -31,6 +27,7 @@ type GameObjectConfig = {
   src?: string
   shadow?: string
   isPlayerControlled?: boolean
+  animations?: { [key: string]: [number, number][] }
 }
 
 type MapConfig = {
@@ -41,6 +38,15 @@ type MapConfig = {
 
 type KeyMap = Record<KeyboardEvent['key'], Direction>
 
+type Animations<T> = {
+  [key in keyof T]: [number, number][]
+}
+
+type PersonAnimations = Animations<{
+  idleDown: [[number, number]]
+  walkDown: [[number, number]]
+}>
+
 export type {
   OwConfig,
   SpriteConfig,
@@ -49,5 +55,6 @@ export type {
   Direction,
   DirectionUpdate,
   KeyMap,
-  Animations
+  Animations,
+  PersonAnimations
 }
