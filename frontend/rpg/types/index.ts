@@ -1,9 +1,9 @@
+import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
-import Map from '@/map'
 
 type OwConfig = {
   element: HTMLElement | null
-  map?: Map | null
+  map?: GameMap | null
 }
 
 type SpriteConfig = {
@@ -30,8 +30,8 @@ type GameObjectConfig = {
   animations?: { [key: string]: [number, number][] }
 }
 
-type MapConfig = {
-  gameObjects: GameObject[]
+type GameMapConfig = {
+  gameObjects: Map<string, GameObject>
   lowerSrc: string
   upperSrc: string
 }
@@ -57,7 +57,7 @@ export type {
   OwConfig,
   SpriteConfig,
   GameObjectConfig,
-  MapConfig,
+  GameMapConfig,
   Direction,
   DirectionUpdate,
   KeyMap,

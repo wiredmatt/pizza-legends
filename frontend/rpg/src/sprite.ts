@@ -1,6 +1,7 @@
 import logger from '@logger'
 import { SpriteConfig } from '@pl-types'
 import GameObject from './gameObject'
+import utils from './utils'
 
 class Sprite {
   isLoaded = false
@@ -36,7 +37,7 @@ class Sprite {
     this.currentAnimation = config.currentAnimation || 'idleDown'
     this.currentAnimationFrame = 0
 
-    this.animationFrameLimit = config.animationFrameLimit || 4
+    this.animationFrameLimit = config.animationFrameLimit || 8
     this.animationFrameProgress = this.animationFrameLimit
 
     this.gameObject = config.gameObject
@@ -90,9 +91,23 @@ class Sprite {
     }
   }
 
-  draw(ctx?: CanvasRenderingContext2D | null) {
-    const x = this.gameObject ? this.gameObject.x - 8 : 0
-    const y = this.gameObject ? this.gameObject.y - 18 : 0
+  draw(
+    ctx?: CanvasRenderingContext2D | null,
+    cameraPerson?: GameObject
+  ) {
+    const x = this.gameObject
+      ? this.gameObject.x -
+        8 +
+        ((cameraPerson &&
+          utils.withGrid(10.5) - cameraPerson?.x) ||
+          0)
+      : 0
+    const y = this.gameObject
+      ? this.gameObject.y -
+        18 +
+        ((cameraPerson && utils.withGrid(6) - cameraPerson?.y) ||
+          0)
+      : 0
 
     this.shadow &&
       this.isShadowLoaded &&
