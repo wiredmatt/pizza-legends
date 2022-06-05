@@ -1,7 +1,7 @@
 <div align="center">
   <br/>
   <br/>
-  <img src="public/images/logo.png" alt="header" width="100" />
+  <img src="./frontend/rpg/public/images/logo.png" alt="header" width="100" />
 
   <h1>Pizza Legends</h1>
   <br/>
