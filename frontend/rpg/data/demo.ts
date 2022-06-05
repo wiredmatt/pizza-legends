@@ -30,7 +30,13 @@ const gameObjects = new Map<string, GameObject>([
 const map: GameMapConfig = {
   lowerSrc: '/images/maps/DemoLower.png',
   upperSrc: '/images/maps/DemoUpper.png',
-  gameObjects
+  gameObjects,
+  walls: {
+    [utils.asGridCoord(7, 6)]: true,
+    [utils.asGridCoord(8, 6)]: true,
+    [utils.asGridCoord(7, 7)]: true,
+    [utils.asGridCoord(8, 7)]: true
+  }
 }
 
 export default map

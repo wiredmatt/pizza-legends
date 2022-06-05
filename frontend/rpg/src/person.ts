@@ -1,7 +1,8 @@
 import {
-  Direction,
+  Behaviour,
   DirectionUpdate,
-  GameObjectConfig
+  GameObjectConfig,
+  GameObjectState
 } from '@pl-types'
 import GameObject from './gameObject'
 import utils from './utils'
@@ -22,47 +23,62 @@ class Person extends GameObject {
     this.isPlayerControlled = config.isPlayerControlled || false
   }
 
-  updatePosition() {
+  startBehaviour(state: GameObjectState, behaviour: Behaviour) {
+    this.direction = behaviour.direction
+    switch (behaviour.type) {
+      case 'walk':
+        const taken = state.map?.isSpaceTaken(
+          this.x,
+          this.y,
+          this.direction
+        )
+
+        if (taken) {
+          return
+        }
+
+        state.map?.moveWall(this.x, this.y, this.direction)
+
+        this.movingProgressRemaining = 16
+
+      default:
+        break
+    }
+  }
+
+  update(state: GameObjectState): void {
     if (this.movingProgressRemaining > 0) {
-      const [property, change] =
-        this.directionUpdate[this.direction]
-
-      this[property] += change
-      this.movingProgressRemaining -= 2
+      this.updatePosition()
+    } else {
+      if (this.isPlayerControlled && state.direction) {
+        this.startBehaviour(state, {
+          type: 'walk',
+          direction: state.direction
+        })
+      }
+      this.updateSprite()
     }
   }
 
-  update(state: { direction: Direction }): void {
-    this.updatePosition()
-    this.updateSprite(state)
-    if (
-      this.isPlayerControlled &&
-      this.movingProgressRemaining === 0 &&
-      state.direction
-    ) {
-      this.direction = state.direction
-      this.movingProgressRemaining = 16
-    }
+  updatePosition() {
+    const [property, change] =
+      this.directionUpdate[this.direction]
+
+    this[property] += change
+    this.movingProgressRemaining -= 1
   }
 
-  updateSprite(state: { direction: Direction }) {
-    if (
-      this.isPlayerControlled &&
-      this.movingProgressRemaining === 0 &&
-      !state.direction
-    ) {
-      this.sprite.setAnimation(
-        `idle${utils.capitalize(this.direction)}`
-      )
-      return
-    }
-
+  updateSprite() {
     if (this.movingProgressRemaining > 0) {
       this.sprite.setAnimation(
         `walk${utils.capitalize(this.direction)}`
       )
       return
     }
+
+    this.sprite.setAnimation(
+      `idle${utils.capitalize(this.direction)}`
+    )
   }
 }
 

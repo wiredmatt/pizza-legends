@@ -34,7 +34,8 @@ class Overworld {
       this.map.gameObjects.forEach((value) => {
         if (value.update) {
           value.update({
-            direction: this.directionInput?.direction
+            direction: this.directionInput?.direction,
+            map: this.map
           })
         }
       })
@@ -98,6 +99,8 @@ class Overworld {
 
   init() {
     this.map = new GameMap(maps.DemoRoom)
+    this.map.mountObjects()
+
     this.directionInput.init()
     this.gameLoop()
   }

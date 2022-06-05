@@ -30,10 +30,16 @@ type GameObjectConfig = {
   animations?: { [key: string]: [number, number][] }
 }
 
+type GameObjectState = {
+  direction: Direction
+  map?: GameMap | null
+}
+
 type GameMapConfig = {
   gameObjects: Map<string, GameObject>
   lowerSrc: string
   upperSrc: string
+  walls?: Record<string, boolean>
 }
 
 type KeyMap = Record<KeyboardEvent['key'], Direction>
@@ -53,6 +59,11 @@ type PersonAnimations = Animations<{
   walkRight: [[number, number]]
 }>
 
+type Behaviour = {
+  type: string
+  direction: Direction
+}
+
 export type {
   OwConfig,
   SpriteConfig,
@@ -62,5 +73,7 @@ export type {
   DirectionUpdate,
   KeyMap,
   Animations,
-  PersonAnimations
+  PersonAnimations,
+  GameObjectState,
+  Behaviour
 }
