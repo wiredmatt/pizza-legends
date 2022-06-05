@@ -36,7 +36,7 @@ class Sprite {
     this.currentAnimation = config.currentAnimation || 'idleDown'
     this.currentAnimationFrame = 0
 
-    this.animationFrameLimit = config.animationFrameLimit || 8
+    this.animationFrameLimit = config.animationFrameLimit || 4
     this.animationFrameProgress = this.animationFrameLimit
 
     this.gameObject = config.gameObject
@@ -77,7 +77,7 @@ class Sprite {
 
   updateAnimationProgress() {
     if (this.animationFrameProgress > 0) {
-      this.animationFrameProgress = -1
+      this.animationFrameProgress -= 1
       return
     }
 

@@ -1,3 +1,5 @@
+import { PersonAnimations } from '@pl-types'
+
 const animations: PersonAnimations = {
   idleDown: [[0, 0]],
   idleRight: [[0, 1]],

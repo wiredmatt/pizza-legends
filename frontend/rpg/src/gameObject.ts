@@ -1,8 +1,4 @@
-import type {
-  Direction,
-  DirectionUpdate,
-  GameObjectConfig
-} from '@pl-types'
+import type { Direction, GameObjectConfig } from '@pl-types'
 import Sprite from './sprite'
 
 class GameObject {
@@ -10,13 +6,6 @@ class GameObject {
   y: number
   direction: Direction
   sprite: Sprite
-
-  directionUpdate: DirectionUpdate = {
-    up: ['y', -1],
-    down: ['y', 1],
-    left: ['x', -1],
-    right: ['x', 1]
-  }
 
   constructor(config: GameObjectConfig) {
     this.x = config.x
