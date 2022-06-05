@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { WriteLoggerDto } from './dto/write-logger.dto';
 
-import { appendFile, readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 const fPath = 'pizza-legends.log';
 
@@ -46,6 +46,7 @@ ${message}
 `;
 
     this.logger.log(log);
-    return await appendFile(fPath, log, 'utf8');
+    await writeFile(fPath, logHistory + log, 'utf8');
+    return Promise.resolve();
   }
 }
