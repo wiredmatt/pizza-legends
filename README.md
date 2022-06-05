@@ -11,12 +11,15 @@ This is a [Pizza Legends](https://www.youtube.com/watch?v=fyi4vfbKEeo) clone mad
 
 ## Available Commands
 
-| Command        | Description |
-|----------------|-------------|
-| `yarn install` | Install project dependencies |
-| `yarn dev`     | Builds project and open web server, watching for changes |
-| `yarn build`   | Builds code bundle with production settings  |
-| `yarn serve`   | Run a web server to serve built code bundle |
+| Command          | Description                                              |
+| ---------------- | -------------------------------------------------------- |
+| `yarn install`   | Install project dependencies                             |
+| `yarn rpg dev`   | Builds project and open web server, watching for changes |
+| `yarn rpg build` | Builds code bundle with production settings              |
+| `yarn rpg serve` | Run a web server to serve built code bundle              |
+| `yarn api dev`   | Run a Nestjs api to save data, in dev mode               |
+| `yarn api start` | Run a Nestjs api to save data in prod mode               |
+
 
 ## Development
 
