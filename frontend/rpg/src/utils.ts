@@ -35,5 +35,23 @@ export default {
     }
 
     return { x, y }
+  },
+  emitEvent(name: string, detail: object) {
+    const ev = new CustomEvent(name, {
+      detail
+    })
+
+    document.dispatchEvent(ev)
+  },
+  isCustomEvent(event: Event): event is CustomEvent {
+    return 'detail' in event
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sortMap(map: Map<string, any>, sortKey: string) {
+    return new Map(
+      [...map.entries()].sort(
+        (a, b) => a[1][sortKey] - b[1][sortKey]
+      )
+    )
   }
 }

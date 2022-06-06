@@ -1,12 +1,15 @@
-import { Direction, GameMapConfig } from '@pl-types'
+import { Behaviour, Direction, GameMapConfig } from '@pl-types'
+import GameEvent from './GameEvent'
 import GameObject from './gameObject'
+import Person from './person'
 import utils from './utils'
 
 class GameMap {
-  gameObjects: Map<string, GameObject>
+  gameObjects: Map<string, GameObject | Person>
   lowerImage = new Image()
   upperImage = new Image()
   walls?: Record<string, boolean>
+  isCutscenePlaying = false
 
   constructor(config: GameMapConfig) {
     this.gameObjects = config.gameObjects
@@ -57,9 +60,25 @@ class GameMap {
   }
 
   mountObjects() {
-    this.gameObjects.forEach((value) => {
+    this.gameObjects.forEach((value, key) => {
+      value.id = key
       value.mount(this)
     })
+  }
+
+  async startCutscene(events: Behaviour[]) {
+    this.isCutscenePlaying = true
+
+    for (const event of events) {
+      const eventHandler = new GameEvent({
+        event,
+        map: this
+      })
+
+      await eventHandler.init()
+    }
+
+    this.isCutscenePlaying = false
   }
 
   addWall(x: number, y: number) {

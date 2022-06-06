@@ -28,10 +28,11 @@ type GameObjectConfig = {
   shadow?: string
   isPlayerControlled?: boolean
   animations?: { [key: string]: [number, number][] }
+  behaviourLoop?: Behaviour[]
 }
 
 type GameObjectState = {
-  direction: Direction
+  direction?: Direction
   map?: GameMap | null
 }
 
@@ -40,6 +41,11 @@ type GameMapConfig = {
   lowerSrc: string
   upperSrc: string
   walls?: Record<string, boolean>
+}
+
+type GameEventConfig = {
+  map: GameMap
+  event: Behaviour
 }
 
 type KeyMap = Record<KeyboardEvent['key'], Direction>
@@ -62,6 +68,9 @@ type PersonAnimations = Animations<{
 type Behaviour = {
   type: string
   direction: Direction
+  time?: number
+  who?: string
+  retry?: boolean
 }
 
 export type {
@@ -75,5 +84,6 @@ export type {
   Animations,
   PersonAnimations,
   GameObjectState,
-  Behaviour
+  Behaviour,
+  GameEventConfig
 }

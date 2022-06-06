@@ -8,7 +8,7 @@ const gameObjects = new Map<string, GameObject>([
   [
     'hero',
     new Person({
-      x: utils.withGrid(2),
+      x: utils.withGrid(5),
       y: utils.withGrid(6),
       shadow: '/images/characters/shadow.png',
       isPlayerControlled: true,
@@ -22,7 +22,62 @@ const gameObjects = new Map<string, GameObject>([
       y: utils.withGrid(9),
       src: '/images/characters/people/npc1.png',
       shadow: '/images/characters/shadow.png',
-      animations: personAnimations
+      animations: personAnimations,
+      behaviourLoop: [
+        {
+          type: 'stand',
+          direction: 'left',
+          time: 800
+        },
+        {
+          type: 'stand',
+          direction: 'up',
+          time: 800
+        },
+        {
+          type: 'stand',
+          direction: 'right',
+          time: 1200
+        },
+        {
+          type: 'stand',
+          direction: 'up',
+          time: 300
+        }
+      ]
+    })
+  ],
+  [
+    'npc2',
+    new Person({
+      x: utils.withGrid(3),
+      y: utils.withGrid(8),
+      src: '/images/characters/people/npc2.png',
+      shadow: '/images/characters/shadow.png',
+      animations: personAnimations,
+      behaviourLoop: [
+        {
+          type: 'walk',
+          direction: 'left'
+        },
+        {
+          type: 'stand',
+          direction: 'up',
+          time: 800
+        },
+        {
+          type: 'walk',
+          direction: 'up'
+        },
+        {
+          type: 'walk',
+          direction: 'right'
+        },
+        {
+          type: 'walk',
+          direction: 'down'
+        }
+      ]
     })
   ]
 ])
