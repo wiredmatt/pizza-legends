@@ -11,11 +11,12 @@ export class LoggerService {
 
   async setup() {
     try {
-      await readFile(fPath, 'utf8');
+      await this.read();
     } catch (e) {
       this.logger.log('Logger file not found, creating one...');
+      await writeFile(fPath, '', 'utf8');
     } finally {
-      return await writeFile(fPath, '', 'utf8');
+      return;
     }
   }
 
@@ -46,7 +47,6 @@ ${message}
 `;
 
     this.logger.log(log);
-    await writeFile(fPath, logHistory + log, 'utf8');
-    return Promise.resolve();
+    return await writeFile(fPath, logHistory + log, 'utf8');
   }
 }
