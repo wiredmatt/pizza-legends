@@ -1,6 +1,7 @@
 import { maps } from '@data'
 import type { OwConfig } from '@pl-types'
 import logger from 'logger'
+import constants from './constants'
 import DirectionInput from './directionInput'
 import GameMap from './gameMap'
 import GameObject from './gameObject'
@@ -27,14 +28,6 @@ class Overworld {
     this.canvas = this.element?.querySelector('.game-canvas')
     this.ctx = this.canvas?.getContext('2d')
     this.map = config.map || null
-
-    if (this.map?.gameObjects) {
-      this.map.gameObjects[Symbol.iterator] = function* () {
-        yield* [...this.entries()].sort(
-          (a, b) => a[1].y - b[1].y
-        )
-      }
-    }
   }
 
   update() {
@@ -120,11 +113,16 @@ class Overworld {
     this.gameLoop()
 
     this.map.startCutscene([
-      { who: 'hero', type: 'walk', direction: 'down' },
-      { who: 'hero', type: 'walk', direction: 'down' },
-      { who: 'npc1', type: 'walk', direction: 'left' },
-      { who: 'npc1', type: 'walk', direction: 'left' },
-      { who: 'npc1', type: 'stand', direction: 'up', time: 800 }
+      { who: constants.HERO, type: 'walk', direction: 'down' },
+      { who: constants.HERO, type: 'walk', direction: 'down' },
+      { who: constants.NPC1, type: 'walk', direction: 'left' },
+      { who: constants.NPC1, type: 'walk', direction: 'left' },
+      {
+        who: constants.NPC1,
+        type: 'stand',
+        direction: 'up',
+        time: 800
+      }
     ])
   }
 }

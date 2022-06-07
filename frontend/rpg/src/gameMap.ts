@@ -79,6 +79,10 @@ class GameMap {
     }
 
     this.isCutscenePlaying = false
+
+    this.gameObjects.forEach(value => {
+      value.doBehaviourEvent(this)
+    })
   }
 
   addWall(x: number, y: number) {

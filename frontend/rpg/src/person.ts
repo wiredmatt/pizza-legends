@@ -49,10 +49,13 @@ class Person extends GameObject {
 
         return
       case 'stand':
+        this.isStanding = true
+
         setTimeout(() => {
           utils.emitEvent('personStandingComplete', {
             who: this.id
           })
+          this.isStanding = false
         }, behaviour.time)
 
         return

@@ -17,6 +17,7 @@ class GameObject {
   isMounted = false
   behaviourLoop: Behaviour[]
   behaviourLoopIndex = 0
+  isStanding = false
 
   constructor(config: GameObjectConfig) {
     this.x = config.x
@@ -45,7 +46,8 @@ class GameObject {
   async doBehaviourEvent(map: GameMap) {
     if (
       map.isCutscenePlaying ||
-      this.behaviourLoop.length === 0
+      this.behaviourLoop.length === 0 ||
+      this.isStanding
     ) {
       return
     }

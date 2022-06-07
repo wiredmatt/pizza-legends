@@ -87,3 +87,13 @@ export type {
   Behaviour,
   GameEventConfig
 }
+// T = 'idleDown' | 'idleRight' | 'idleLeft' | 'idleUp' | 'walkDown' | 'walkUp' | 'walkLeft' | 'walkRight'
+// type SpriteConfig<T> = {
+//   src: string
+//   shadow?: string
+//   animations?: { [key in keyof T]: [number, number][] }
+//   currentAnimation?: string
+//   currentAnimationFrame?: number
+//   animationFrameLimit?: number
+//   gameObject?: GameObject
+// }
