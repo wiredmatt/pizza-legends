@@ -1,10 +1,12 @@
 import { maps } from '@data'
 import type { OwConfig } from '@pl-types'
+import { GameMaps } from 'data/maps'
 import logger from 'logger'
 import constants from './constants'
 import DirectionInput from './directionInput'
 import GameMap from './gameMap'
 import GameObject from './gameObject'
+import KeyPressListener from './keyPressListener'
 import utils from './utils'
 
 class Overworld {
@@ -33,7 +35,7 @@ class Overworld {
   update() {
     //loop over your objects and run each objects update function
     if (this.map?.gameObjects) {
-      this.map.gameObjects.forEach((value) => {
+      this.map.gameObjects.forEach(value => {
         if (value.update) {
           value.update({
             direction: this.directionInput?.direction,
@@ -55,7 +57,7 @@ class Overworld {
   render(cameraPerson?: GameObject) {
     //loop over your objects and run each objects render function
     if (this.map?.gameObjects) {
-      this.sortedGameObjects.forEach((value) => {
+      this.sortedGameObjects.forEach(value => {
         value.sprite.draw(this.ctx, cameraPerson)
       })
     }
@@ -105,25 +107,48 @@ class Overworld {
     requestAnimationFrame(() => this.gameLoop())
   }
 
-  init() {
-    this.map = new GameMap(maps.DemoRoom)
+  bindActionInput() {
+    new KeyPressListener('Enter', () => {
+      this.map?.checkForActionCutscene()
+    })
+  }
+
+  bindHeroPosition() {
+    document.addEventListener('personWalkingComplete', e => {
+      if (e.detail.who === constants.HERO) {
+        this.map?.checkForFootstepCutscene()
+      }
+    })
+  }
+
+  changeMap(mapId: GameMaps) {
+    this.map = new GameMap(maps[mapId])
+    this.map.overworld = this
     this.map.mountObjects()
+  }
+
+  init() {
+    this.changeMap('DemoRoom')
+
+    this.bindActionInput()
+    this.bindHeroPosition()
 
     this.directionInput.init()
     this.gameLoop()
 
-    this.map.startCutscene([
-      { who: constants.HERO, type: 'walk', direction: 'down' },
-      { who: constants.HERO, type: 'walk', direction: 'down' },
-      { who: constants.NPC1, type: 'walk', direction: 'left' },
-      { who: constants.NPC1, type: 'walk', direction: 'left' },
-      {
-        who: constants.NPC1,
-        type: 'stand',
-        direction: 'up',
-        time: 800
-      }
-    ])
+    // this.map.startCutscene([
+    //   { who: constants.HERO, type: 'walk', direction: 'down' },
+    //   { who: constants.HERO, type: 'walk', direction: 'down' },
+    //   { who: constants.NPC1, type: 'walk', direction: 'up' },
+    //   { who: constants.NPC1, type: 'walk', direction: 'left' },
+    //   {
+    //     who: constants.HERO,
+    //     type: 'stand',
+    //     direction: 'right',
+    //     time: 200
+    //   },
+    //   { type: 'textMessage', text: 'hellooo' }
+    // ])
   }
 }
 

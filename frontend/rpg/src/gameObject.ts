@@ -2,7 +2,8 @@ import type {
   Behaviour,
   Direction,
   GameObjectConfig,
-  GameObjectState
+  GameObjectState,
+  Talking
 } from '@pl-types'
 import GameEvent from './GameEvent'
 import GameMap from './gameMap'
@@ -18,6 +19,7 @@ class GameObject {
   behaviourLoop: Behaviour[]
   behaviourLoopIndex = 0
   isStanding = false
+  talking: Talking
 
   constructor(config: GameObjectConfig) {
     this.x = config.x
@@ -30,6 +32,7 @@ class GameObject {
       animations: config.animations
     })
     this.behaviourLoop = config.behaviourLoop || []
+    this.talking = config.talking || []
   }
 
   mount(map: GameMap) {

@@ -53,5 +53,19 @@ export default {
         (a, b) => a[1][sortKey] - b[1][sortKey]
       )
     )
+  },
+  oppositeDirection(direction: Direction): Direction {
+    switch (direction) {
+      case 'left':
+        return 'right'
+      case 'right':
+        return 'left'
+      case 'up':
+        return 'down'
+      case 'down':
+        return 'up'
+      default:
+        return 'down'
+    }
   }
 }

@@ -24,6 +24,7 @@ class Person extends GameObject {
   }
 
   startBehaviour(state: GameObjectState, behaviour: Behaviour) {
+    if (!behaviour.direction) throw Error('missing direction')
     this.direction = behaviour.direction
 
     const taken = state.map?.isSpaceTaken(

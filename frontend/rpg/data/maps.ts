@@ -1,7 +1,10 @@
+import { GameMapConfig } from 'types'
 import demo from './demo'
 import kitchen from './kitchen'
 
-const maps = {
+export type GameMaps = 'DemoRoom' | 'Kitchen'
+
+const maps: Record<GameMaps, GameMapConfig> = {
   DemoRoom: demo,
   Kitchen: kitchen
 }

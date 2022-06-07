@@ -24,14 +24,14 @@ class DirectionInput {
   }
 
   init() {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       const dir = this.keyMap[e.key]
       if (dir && this.heldDirections.indexOf(dir) === -1) {
         this.heldDirections.unshift(dir)
       }
     })
 
-    document.addEventListener('keyup', (e) => {
+    document.addEventListener('keyup', e => {
       const dir = this.keyMap[e.key]
       const index = this.heldDirections.indexOf(dir)
       if (index > -1) {

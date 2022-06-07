@@ -1,5 +1,6 @@
 import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
+import { GameMaps } from 'data/maps'
 
 type OwConfig = {
   element: HTMLElement | null
@@ -29,6 +30,7 @@ type GameObjectConfig = {
   isPlayerControlled?: boolean
   animations?: { [key: string]: [number, number][] }
   behaviourLoop?: Behaviour[]
+  talking?: Talking
 }
 
 type GameObjectState = {
@@ -36,11 +38,18 @@ type GameObjectState = {
   map?: GameMap | null
 }
 
+type CutsceneSpaces = {
+  [key: string]: {
+    events: Behaviour[]
+  }[]
+}
+
 type GameMapConfig = {
   gameObjects: Map<string, GameObject>
   lowerSrc: string
   upperSrc: string
   walls?: Record<string, boolean>
+  cutsceneSpaces?: CutsceneSpaces
 }
 
 type GameEventConfig = {
@@ -67,11 +76,18 @@ type PersonAnimations = Animations<{
 
 type Behaviour = {
   type: string
-  direction: Direction
+  direction?: Direction
   time?: number
   who?: string
   retry?: boolean
+  text?: string
+  trigger?: string // id of the gameObject to face
+  map?: GameMaps // id of the gameMap to change to
 }
+
+type Talking = {
+  events: Behaviour[]
+}[]
 
 export type {
   OwConfig,
@@ -85,7 +101,9 @@ export type {
   PersonAnimations,
   GameObjectState,
   Behaviour,
-  GameEventConfig
+  GameEventConfig,
+  Talking,
+  CutsceneSpaces
 }
 // T = 'idleDown' | 'idleRight' | 'idleLeft' | 'idleUp' | 'walkDown' | 'walkUp' | 'walkLeft' | 'walkRight'
 // type SpriteConfig<T> = {

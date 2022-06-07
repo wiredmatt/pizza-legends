@@ -27,7 +27,6 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['fs/promises'],
       plugins: [
         //  Toggle the booleans here to enable / disable Phaser 3 features:
         replace({

@@ -1,3 +1,4 @@
+import constants from '@/constants'
 import GameObject from '@/gameObject'
 import Person from '@/person'
 import utils from '@/utils'
@@ -6,30 +7,42 @@ import personAnimations from './animations/person'
 
 const gameObjects = new Map<string, GameObject>([
   [
-    'hero',
+    constants.HERO,
     new Person({
-      x: utils.withGrid(2),
-      y: utils.withGrid(6),
-      shadow: '/images/characters/shadow.png',
+      x: utils.withGrid(5),
+      y: utils.withGrid(5),
+      shadow: constants.SHADOW_SPRITE,
       isPlayerControlled: true,
       animations: personAnimations
     })
   ],
   [
-    'npc1',
+    'npc3',
     new Person({
-      x: utils.withGrid(7),
-      y: utils.withGrid(9),
-      src: '/images/characters/people/npc1.png',
-      shadow: '/images/characters/shadow.png',
-      animations: personAnimations
+      x: utils.withGrid(10),
+      y: utils.withGrid(8),
+      src: constants.NPC3_SPRITE,
+      shadow: constants.SHADOW_SPRITE,
+      animations: personAnimations,
+      talking: [
+        {
+          events: [
+            {
+              who: constants.NPC3,
+              type: 'textMessage',
+              text: 'hello brooo',
+              trigger: constants.HERO
+            }
+          ]
+        }
+      ]
     })
   ]
 ])
 
 const map: GameMapConfig = {
-  lowerSrc: '/images/maps/KitchLower.png',
-  upperSrc: '/images/maps/KitchenUpper.png',
+  lowerSrc: constants.KITCHEN_LOWER_SPRITE,
+  upperSrc: constants.KITCHEN_UPPER_SPRITE,
   gameObjects
 }
 

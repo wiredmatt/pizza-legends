@@ -1,6 +1,8 @@
 import { Behaviour, GameEventConfig } from 'types'
 import GameMap from './gameMap'
 import Person from './person'
+import TextMessage from './textMessage'
+import utils from './utils'
 
 class GameEvent {
   map: GameMap
@@ -13,7 +15,9 @@ class GameEvent {
 
   init() {
     return new Promise((resolve, reject) => {
-      this[this.event.type as 'stand' | 'walk'](resolve, reject)
+      return this[
+        this.event.type as 'stand' | 'walk' | 'textMessage'
+      ](resolve, reject)
     })
   }
 
@@ -94,6 +98,49 @@ class GameEvent {
       )
     } else {
       reject('Invalid ID or object is not Person')
+    }
+  }
+
+  textMessage(
+    resolve: (value: unknown) => void,
+    reject: (value: unknown) => void
+  ) {
+    if (this.event.text) {
+      if (this.event.who && this.event.trigger) {
+        const target = this.map.gameObjects.get(this.event.who)
+
+        const trigger = this.map.gameObjects.get(
+          this.event.trigger
+        )
+
+        if (target && trigger) {
+          target.direction = utils.oppositeDirection(
+            trigger.direction
+          )
+        }
+      }
+
+      const message = new TextMessage({
+        text: this.event.text,
+        onComplete: () => resolve('textMessage')
+      })
+
+      const container = document.querySelector('.game-container')
+      if (!container) return reject('No container')
+
+      message.init(container as HTMLDivElement)
+    }
+  }
+
+  changeMap(
+    resolve: (value: unknown) => void,
+    reject: (value: unknown) => void
+  ) {
+    if (this.event.map) {
+      this.map.overworld?.changeMap(this.event.map)
+      resolve(`chaged map to ${this.event.map}`)
+    } else {
+      reject(`No map specified`)
     }
   }
 }

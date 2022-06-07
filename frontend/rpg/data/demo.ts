@@ -46,40 +46,55 @@ const gameObjects = new Map<string, GameObject>([
           direction: 'up',
           time: 300
         }
+      ],
+      talking: [
+        {
+          events: [
+            {
+              who: constants.NPC1,
+              type: 'textMessage',
+              text: "I'm busy dud",
+              trigger: constants.HERO
+            },
+            { type: 'textMessage', text: 'GTFO' },
+            { who: 'hero', type: 'walk', direction: 'left' }
+          ]
+        }
       ]
     })
   ],
   [
     constants.NPC2,
     new Person({
-      x: utils.withGrid(3),
-      y: utils.withGrid(8),
+      x: utils.withGrid(8),
+      y: utils.withGrid(5),
       src: constants.NPC2_SPRITE,
       shadow: constants.SHADOW_SPRITE,
-      animations: personAnimations,
-      behaviourLoop: [
-        {
-          type: 'walk',
-          direction: 'left'
-        },
-        {
-          type: 'stand',
-          direction: 'up',
-          time: 800
-        },
-        {
-          type: 'walk',
-          direction: 'up'
-        },
-        {
-          type: 'walk',
-          direction: 'right'
-        },
-        {
-          type: 'walk',
-          direction: 'down'
-        }
-      ]
+      animations: personAnimations
+      // behaviourLoop: [
+      //   {
+      //     type: 'walk',
+      //     direction: 'left'
+      //   },
+      //   {
+      //     type: 'stand',
+      //     direction: 'up',
+      //     time: 800
+      //   },
+      //   {
+      //     type: 'walk',
+      //     direction: 'up'
+      //   },
+      //   {
+      //     type: 'walk',
+      //     direction: 'right'
+      //   },
+      //   {
+      //     type: 'walk',
+      //     direction: 'down'
+      //   }
+      // ]
+      // behaviourLoop: [{}]
     })
   ]
 ])
@@ -93,6 +108,55 @@ const map: GameMapConfig = {
     [utils.asGridCoord(8, 6)]: true,
     [utils.asGridCoord(7, 7)]: true,
     [utils.asGridCoord(8, 7)]: true
+  },
+  cutsceneSpaces: {
+    [utils.asGridCoord(7, 4)]: [
+      {
+        events: [
+          {
+            who: constants.NPC2,
+            type: 'walk',
+            direction: 'left'
+          },
+          {
+            who: constants.NPC2,
+            type: 'stand',
+            direction: 'up',
+            time: 500
+          },
+          {
+            who: constants.NPC2,
+            type: 'textMessage',
+            text: "You can't be in there!"
+          },
+          {
+            who: constants.NPC2,
+            type: 'walk',
+            direction: 'right'
+          },
+          {
+            who: constants.HERO,
+            type: 'walk',
+            direction: 'down'
+          },
+          {
+            who: constants.HERO,
+            type: 'walk',
+            direction: 'left'
+          }
+        ]
+      }
+    ],
+    [utils.asGridCoord(5, 10)]: [
+      {
+        events: [
+          {
+            type: 'changeMap',
+            map: 'Kitchen'
+          }
+        ]
+      }
+    ]
   }
 }
 

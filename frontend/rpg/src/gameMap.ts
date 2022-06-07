@@ -1,6 +1,12 @@
-import { Behaviour, Direction, GameMapConfig } from '@pl-types'
+import {
+  Behaviour,
+  CutsceneSpaces,
+  Direction,
+  GameMapConfig
+} from '@pl-types'
 import GameEvent from './GameEvent'
 import GameObject from './gameObject'
+import Overworld from './overworld'
 import Person from './person'
 import utils from './utils'
 
@@ -10,12 +16,16 @@ class GameMap {
   upperImage = new Image()
   walls?: Record<string, boolean>
   isCutscenePlaying = false
+  cutsceneSpaces: CutsceneSpaces
+  overworld: Overworld | null
 
   constructor(config: GameMapConfig) {
     this.gameObjects = config.gameObjects
     this.walls = config.walls
     this.lowerImage.src = config.lowerSrc
     this.upperImage.src = config.upperSrc
+    this.cutsceneSpaces = config.cutsceneSpaces || {}
+    this.overworld = null
   }
 
   drawLowerImage(
@@ -83,6 +93,48 @@ class GameMap {
     this.gameObjects.forEach(value => {
       value.doBehaviourEvent(this)
     })
+  }
+
+  checkForActionCutscene() {
+    const hero = this.gameObjects.get('hero')
+    let match
+
+    if (hero) {
+      const nextCoords = utils.nextPosition(
+        hero.x,
+        hero.y,
+        hero.direction
+      )
+
+      match = [...this.gameObjects.values()].find(gameObject => {
+        return (
+          `${gameObject.x},${gameObject.y}` ===
+          `${nextCoords.x},${nextCoords.y}`
+        )
+      })
+
+      if (
+        !this.isCutscenePlaying &&
+        match &&
+        match.talking.length
+      ) {
+        this.startCutscene(match.talking[0].events)
+      }
+    }
+
+    return match
+  }
+
+  checkForFootstepCutscene() {
+    const hero = this.gameObjects.get('hero')
+
+    if (hero) {
+      const match = this.cutsceneSpaces[`${hero.x},${hero.y}`]
+
+      if (!this.isCutscenePlaying && match && match.length) {
+        this.startCutscene(match[0].events)
+      }
+    }
   }
 
   addWall(x: number, y: number) {
