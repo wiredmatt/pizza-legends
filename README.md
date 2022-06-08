@@ -32,5 +32,5 @@ After running `yarn build`, the files you need for production will be on the `di
 
 ## Credits
 
-- [photonstorm/phaser3-typescript-project-template](https://github.com/photonstorm/phaser3-typescript-project-template)
+- [geocine/phaser3-rollup-typescript](https://github.com/geocine/phaser3-rollup-typescript)
 - [Drew Conley - Pizza Legends](https://www.youtube.com/watch?v=fyi4vfbKEeo&list=PLcjhmZ8oLT0r9dSiIK6RB_PuBWlG1KSq_)
