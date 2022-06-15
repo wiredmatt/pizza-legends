@@ -17,7 +17,7 @@ const gameObjects = new Map<string, GameObject>([
     })
   ],
   [
-    'npc3',
+    constants.NPC3,
     new Person({
       x: utils.withGrid(10),
       y: utils.withGrid(8),
