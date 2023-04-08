@@ -3,10 +3,6 @@
     "version": "1.0.0",
     "description": "Pizza Legends remake in TS",
     "private": true,
-    "workspaces": [
-        "backend/*",
-        "frontend/*"
-    ],
     "scripts": {
         "api": "yarn workspace @pizza-legends/api",
         "rpg": "yarn workspace @pizza-legends/rpg"
