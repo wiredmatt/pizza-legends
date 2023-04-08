@@ -1,3 +1,4 @@
+import { PizzasTypes } from '@/content/pizzas'
 import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
 import { GameMaps } from 'data/maps'
@@ -75,7 +76,7 @@ type PersonAnimations = Animations<{
 }>
 
 type Behaviour = {
-  type: 'stand' | 'walk' | 'textMessage' | 'changeMap'
+  type: 'stand' | 'walk' | 'textMessage' | 'changeMap' | 'battle'
   direction?: Direction
   time?: number
   who?: string
@@ -89,9 +90,25 @@ type Talking = {
   events: Behaviour[]
 }[]
 
+type CombatantConfig = {
+  name: string
+  type: PizzasTypes
+  src: string
+  icon: string
+  team: 'player' | 'enemy'
+  hp: number
+  maxHp: number
+  xp: number
+  maxXp: number
+  level: number
+  status: any
+  id: string
+}
+
 export type {
   Animations,
   Behaviour,
+  CombatantConfig,
   CutsceneSpaces,
   Direction,
   DirectionUpdate,

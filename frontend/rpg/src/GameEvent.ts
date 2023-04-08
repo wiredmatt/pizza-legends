@@ -1,5 +1,6 @@
 import { Behaviour, GameEventConfig } from 'types'
 import SceneTransition from './SceneTransition'
+import Battle from './battle/battle'
 import GameMap from './gameMap'
 import Person from './person'
 import TextMessage from './textMessage'
@@ -18,6 +19,16 @@ class GameEvent {
     return new Promise((resolve, reject) => {
       return this[this.event.type](resolve, reject)
     })
+  }
+
+  getContainer() {
+    const container = document.querySelector('.game-container')
+
+    if (!container) {
+      return null
+    } else {
+      return container
+    }
   }
 
   stand(
@@ -104,6 +115,9 @@ class GameEvent {
     resolve: (value: unknown) => void,
     reject: (value: unknown) => void
   ) {
+    const container = this.getContainer()
+    if (!container) return reject('Container not found')
+
     if (this.event.text) {
       if (this.event.who && this.event.trigger) {
         const target = this.map.gameObjects.get(this.event.who)
@@ -124,9 +138,6 @@ class GameEvent {
         onComplete: () => resolve('textMessage')
       })
 
-      const container = document.querySelector('.game-container')
-      if (!container) return reject('No container')
-
       message.init(container as HTMLDivElement)
     }
   }
@@ -135,8 +146,8 @@ class GameEvent {
     resolve: (value: unknown) => void,
     reject: (value: unknown) => void
   ) {
-    const container = document.querySelector('.game-container')
-    if (!container) return reject('No container')
+    const container = this.getContainer()
+    if (!container) return reject('Container not found')
 
     if (this.event.map) {
       const transition = new SceneTransition()
@@ -149,6 +160,22 @@ class GameEvent {
     } else {
       reject(`No map specified`)
     }
+  }
+
+  battle(
+    resolve: (value: unknown) => void,
+    reject: (value: unknown) => void
+  ) {
+    const container = this.getContainer()
+    if (!container) return reject('Container not found')
+
+    const battle = new Battle(() => {
+      resolve('battle')
+    })
+
+    battle.init(container as HTMLDivElement, () => {
+      console.log('battle init complete')
+    })
   }
 }
 

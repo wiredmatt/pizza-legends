@@ -133,7 +133,7 @@ class Overworld {
   }
 
   init() {
-    this.changeMap('Kitchen')
+    this.changeMap('DemoRoom')
 
     this.bindActionInput()
     this.bindHeroPosition()
@@ -156,9 +156,12 @@ class Overworld {
       //   type: 'textMessage',
       //   text: 'helloooooooooooooooooooooooooooooooooooo'
       // }
+      // {
+      //   type: 'changeMap',
+      //   map: 'DemoRoom'
+      // }
       {
-        type: 'changeMap',
-        map: 'DemoRoom'
+        type: 'battle'
       }
     ])
   }
