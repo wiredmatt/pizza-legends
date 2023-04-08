@@ -1,4 +1,5 @@
 import logger from '@logger'
+import { LitScene } from './SceneTransition'
 import Overworld from './overworld'
 import { LitTextMessage } from './textMessage'
 
@@ -10,6 +11,7 @@ declare global {
 }
 
 customElements.define('text-message', LitTextMessage)
+customElements.define('pl-transition', LitScene)
 
 const main = () => {
   const ow = new Overworld({

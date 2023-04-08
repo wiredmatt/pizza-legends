@@ -121,14 +121,19 @@ class Overworld {
     })
   }
 
-  changeMap(mapId: GameMaps) {
+  changeMap(mapId?: GameMaps) {
+    if (!mapId) {
+      logger.error('Overworld.changeMap', 'mapId is undefined')
+      return
+    }
+
     this.map = new GameMap(maps[mapId])
     this.map.overworld = this
     this.map.mountObjects()
   }
 
   init() {
-    this.changeMap('DemoRoom')
+    this.changeMap('Kitchen')
 
     this.bindActionInput()
     this.bindHeroPosition()
@@ -136,19 +141,26 @@ class Overworld {
     this.directionInput.init()
     this.gameLoop()
 
-    // this.map.startCutscene([
-    //   { who: constants.HERO, type: 'walk', direction: 'down' },
-    //   { who: constants.HERO, type: 'walk', direction: 'down' },
-    //   { who: constants.NPC1, type: 'walk', direction: 'up' },
-    //   { who: constants.NPC1, type: 'walk', direction: 'left' },
-    //   {
-    //     who: constants.HERO,
-    //     type: 'stand',
-    //     direction: 'right',
-    //     time: 200
-    //   },
-    //   { type: 'textMessage', text: 'hellooo' }
-    // ])
+    this.map?.startCutscene([
+      // { who: constants.HERO, type: 'walk', direction: 'down' },
+      // { who: constants.HERO, type: 'walk', direction: 'down' },
+      // { who: constants.NPC1, type: 'walk', direction: 'up' },
+      // { who: constants.NPC1, type: 'walk', direction: 'left' },
+      // {
+      //   who: constants.HERO,
+      //   type: 'stand',
+      //   direction: 'right',
+      //   time: 200
+      // },
+      // {
+      //   type: 'textMessage',
+      //   text: 'helloooooooooooooooooooooooooooooooooooo'
+      // }
+      {
+        type: 'changeMap',
+        map: 'DemoRoom'
+      }
+    ])
   }
 }
 

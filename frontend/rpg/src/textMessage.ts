@@ -1,55 +1,48 @@
-import { html, LitElement } from 'lit'
+import { html, LitElement, PropertyValueMap } from 'lit'
 import KeyPressListener from './keyPressListener'
+import { RevealingText } from './revealingText'
 
 export class LitTextMessage extends LitElement {
   text: string
   done: () => void
+  onElementReady: (element?: HTMLParagraphElement) => void
 
-  constructor(text: string, done: () => void) {
+  constructor(
+    text: string,
+    done: () => void,
+    onElementReady: (p?: HTMLParagraphElement) => void
+  ) {
     super()
     this.text = text
     this.done = done
+    this.onElementReady = onElementReady
+  }
+
+  createRenderRoot() {
+    return this
   }
 
   render() {
     return html`
-      <style>
-        div {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 36px;
-          padding: 4px;
-          background: #ffe8d2;
-          border-top: 1px solid #a48465;
-          color: #3a160d;
-        }
-        p {
-          margin: 0;
-          font-size: 12px;
-        }
-        button {
-          margin: 0;
-          font-size: 8px;
-          padding: 2px;
-          -webkit-appearance: none;
-          background: none;
-          border: 1px solid;
-          font-family: inherit;
-          cursor: pointer;
-
-          position: absolute;
-
-          right: 2px;
-          bottom: 0;
-        }
-      </style>
-      <div>
-        <p>${this.text}</p>
+      <div class="text-message-container">
+        <p></p>
         <button @click="${() => this.done()}">Next</button>
       </div>
     `
+  }
+
+  protected firstUpdated(
+    _changedProperties:
+      | PropertyValueMap<unknown>
+      | Map<PropertyKey, unknown>
+  ): void {
+    super.firstUpdated(_changedProperties)
+
+    this.onElementReady(this.getParagraphElement())
+  }
+
+  getParagraphElement() {
+    return this.querySelector('p') || undefined
   }
 }
 
@@ -58,6 +51,17 @@ class TextMessage {
   element: LitTextMessage
   onComplete: () => void
   actionListener: KeyPressListener
+  revealingText?: RevealingText
+
+  onElementReady = (element?: HTMLParagraphElement) => {
+    console.log(element)
+    this.revealingText = new RevealingText({
+      element: element,
+      text: this.text,
+      speed: 50
+    })
+    this.revealingText.init()
+  }
 
   constructor({
     text,
@@ -69,12 +73,17 @@ class TextMessage {
     this.text = text
     this.onComplete = onComplete
 
-    this.element = new LitTextMessage(this.text, () => {
-      this.done()
-    })
+    this.element = new LitTextMessage(
+      this.text,
+      () => {
+        this.done()
+      },
+      e => {
+        this.onElementReady(e)
+      }
+    )
 
     this.actionListener = new KeyPressListener('Enter', () => {
-      this.actionListener.unbind()
       this.done()
     })
   }
@@ -84,8 +93,13 @@ class TextMessage {
   }
 
   done() {
-    this.element.remove()
-    this.onComplete()
+    if (!this.revealingText?.isDone) {
+      this.revealingText?.skip()
+    } else {
+      this.element.remove()
+      this.actionListener.unbind()
+      this.onComplete()
+    }
   }
 }
 

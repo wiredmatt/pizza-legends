@@ -75,7 +75,7 @@ type PersonAnimations = Animations<{
 }>
 
 type Behaviour = {
-  type: string
+  type: 'stand' | 'walk' | 'textMessage' | 'changeMap'
   direction?: Direction
   time?: number
   who?: string
@@ -90,20 +90,20 @@ type Talking = {
 }[]
 
 export type {
-  OwConfig,
-  SpriteConfig,
-  GameObjectConfig,
-  GameMapConfig,
+  Animations,
+  Behaviour,
+  CutsceneSpaces,
   Direction,
   DirectionUpdate,
-  KeyMap,
-  Animations,
-  PersonAnimations,
-  GameObjectState,
-  Behaviour,
   GameEventConfig,
-  Talking,
-  CutsceneSpaces
+  GameMapConfig,
+  GameObjectConfig,
+  GameObjectState,
+  KeyMap,
+  OwConfig,
+  PersonAnimations,
+  SpriteConfig,
+  Talking
 }
 // T = 'idleDown' | 'idleRight' | 'idleLeft' | 'idleUp' | 'walkDown' | 'walkUp' | 'walkLeft' | 'walkRight'
 // type SpriteConfig<T> = {

@@ -1,4 +1,5 @@
 import { Behaviour, GameEventConfig } from 'types'
+import SceneTransition from './SceneTransition'
 import GameMap from './gameMap'
 import Person from './person'
 import TextMessage from './textMessage'
@@ -15,9 +16,7 @@ class GameEvent {
 
   init() {
     return new Promise((resolve, reject) => {
-      return this[
-        this.event.type as 'stand' | 'walk' | 'textMessage'
-      ](resolve, reject)
+      return this[this.event.type](resolve, reject)
     })
   }
 
@@ -136,9 +135,17 @@ class GameEvent {
     resolve: (value: unknown) => void,
     reject: (value: unknown) => void
   ) {
+    const container = document.querySelector('.game-container')
+    if (!container) return reject('No container')
+
     if (this.event.map) {
-      this.map.overworld?.changeMap(this.event.map)
-      resolve(`chaged map to ${this.event.map}`)
+      const transition = new SceneTransition()
+
+      transition.init(container as HTMLDivElement, () => {
+        this.map.overworld?.changeMap(this.event.map)
+        resolve(`chaged map to ${this.event.map}`)
+        transition.fadeOut()
+      })
     } else {
       reject(`No map specified`)
     }
