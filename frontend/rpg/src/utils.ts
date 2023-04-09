@@ -67,5 +67,12 @@ export default {
       default:
         return 'down'
     }
+  },
+  wait(ms: number) {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        return resolve(null)
+      }, ms)
+    )
   }
 }

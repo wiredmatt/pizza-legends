@@ -17,6 +17,8 @@ class GameEvent {
 
   init() {
     return new Promise((resolve, reject) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       return this[this.event.type](resolve, reject)
     })
   }

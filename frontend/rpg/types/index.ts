@@ -1,3 +1,6 @@
+import { BattleAnimations } from '@/battle/battle-animations'
+import Combatant from '@/battle/combatant'
+import { ActionType } from '@/content/actions'
 import { PizzasTypes } from '@/content/pizzas'
 import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
@@ -75,8 +78,15 @@ type PersonAnimations = Animations<{
   walkRight: [[number, number]]
 }>
 
+type BehaviourType =
+  | 'stand'
+  | 'walk'
+  | 'textMessage'
+  | 'changeMap'
+  | 'battle'
+
 type Behaviour = {
-  type: 'stand' | 'walk' | 'textMessage' | 'changeMap' | 'battle'
+  type: BehaviourType | string
   direction?: Direction
   time?: number
   who?: string
@@ -84,6 +94,10 @@ type Behaviour = {
   text?: string
   trigger?: string // id of the gameObject to face
   map?: GameMaps // id of the gameMap to change to
+  caster?: Combatant
+  target?: Combatant
+  damage?: number
+  animation?: keyof typeof BattleAnimations
 }
 
 type Talking = {
@@ -103,11 +117,22 @@ type CombatantConfig = {
   level: number
   status: any
   id: string
+  actions: ActionType[]
+}
+
+type SubmissionMenuConfig = {
+  caster?: Combatant
+  target?: Combatant
+  onComplete: (sub: {
+    action: ActionType
+    target: Combatant
+  }) => void
 }
 
 export type {
   Animations,
   Behaviour,
+  BehaviourType,
   CombatantConfig,
   CutsceneSpaces,
   Direction,
@@ -120,6 +145,7 @@ export type {
   OwConfig,
   PersonAnimations,
   SpriteConfig,
+  SubmissionMenuConfig,
   Talking
 }
 // T = 'idleDown' | 'idleRight' | 'idleLeft' | 'idleUp' | 'walkDown' | 'walkUp' | 'walkLeft' | 'walkRight'

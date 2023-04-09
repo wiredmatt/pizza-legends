@@ -1,7 +1,9 @@
 import C from '@/constants'
 import { Pizzas } from '@/content/pizzas'
 import { html, LitElement, PropertyValueMap } from 'lit'
+import BattleEvent from './battle-event'
 import Combatant from './combatant'
+import TurnCycle from './turn-cycle'
 
 export class LitBattle extends LitElement {
   onElementReady: (element?: HTMLDivElement) => void
@@ -47,6 +49,7 @@ class Battle {
   onComplete?: () => void
   combatants: { [key: string]: Combatant }
   activeCombatants: { [key: string]: Combatant }
+  turnCycle: TurnCycle | null = null
 
   onElementReady = (element?: HTMLDivElement) => {
     if (element) {
@@ -56,6 +59,15 @@ class Battle {
 
         combatant.init(element)
       })
+
+      this.turnCycle = new TurnCycle(this, ev => {
+        return new Promise(resolve => {
+          const evt = new BattleEvent(this, ev)
+          evt.init(resolve)
+        })
+      })
+
+      this.turnCycle.init()
     }
   }
 
