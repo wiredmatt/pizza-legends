@@ -33,9 +33,9 @@ class TurnCycle {
       target
     })
 
-    console.log(submission)
-
-    const resultingEvents = submission.action.success
+    const resultingEvents = caster.getReplacedEvents(
+      submission.action.success
+    )
 
     for (const ev of resultingEvents) {
       const event = {
@@ -45,8 +45,24 @@ class TurnCycle {
         caster,
         target: submission.target
       }
-
       await this.onNewEvent(event)
+    }
+
+    const postEvents = caster.getPostEvents()
+    for (const ev of postEvents) {
+      const event = {
+        ...ev,
+        submission,
+        action: submission.action,
+        caster,
+        target: submission.target
+      }
+      await this.onNewEvent(event)
+    }
+
+    const expiredEvent = caster.decrementStatus()
+    if (expiredEvent) {
+      await this.onNewEvent(expiredEvent)
     }
 
     this.currentTeam =

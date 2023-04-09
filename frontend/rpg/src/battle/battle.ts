@@ -88,7 +88,10 @@ class Battle {
           xp: 60,
           maxXp: 100,
           level: 1,
-          status: null,
+          // status: {
+          //   type: 'clumsy',
+          //   expiresIn: 3
+          // },
           id: 'player'
         },
         this
@@ -97,7 +100,7 @@ class Battle {
         {
           ...Pizzas['v001'],
           team: 'enemy',
-          hp: 50,
+          hp: 25,
           maxHp: 50,
           xp: 20,
           maxXp: 100,
@@ -111,7 +114,7 @@ class Battle {
         {
           ...Pizzas['f001'],
           team: 'enemy',
-          hp: 50,
+          hp: 25,
           maxHp: 50,
           xp: 30,
           maxXp: 100,

@@ -4,6 +4,7 @@ import { Behaviour } from 'types'
 export type ActionType = {
   name: string
   success: Array<Behaviour>
+  statusOnCaster?: boolean
 }
 
 export const Actions = {
@@ -22,6 +23,50 @@ export const Actions = {
       {
         type: 'stateChange',
         damage: 10
+      }
+    ]
+  },
+  saucyStatus: {
+    name: 'Tomato Squeeze',
+    success: [
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} uses {{ACTION}}'
+      },
+      {
+        type: 'stateChange',
+        status: {
+          type: 'saucy',
+          expiresIn: 3
+        },
+        statusOnCaster: true,
+        targetType: 'friendly'
+      }
+    ]
+  },
+  clumsyStatus: {
+    name: 'Olive Oil Spread',
+    success: [
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} uses {{ACTION}} on {{TARGET}}'
+      },
+      {
+        type: 'animation',
+        animation: BattleAnimations.glob
+          .name as keyof typeof BattleAnimations,
+        color: '#dafd2a'
+      },
+      {
+        type: 'stateChange',
+        status: {
+          type: 'clumsy',
+          expiresIn: 3
+        }
+      },
+      {
+        type: 'textMessage',
+        text: '{{TARGET}} is slipping all around!'
       }
     ]
   }

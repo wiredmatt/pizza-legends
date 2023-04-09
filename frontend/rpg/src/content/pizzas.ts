@@ -18,7 +18,11 @@ export const Pizzas = {
     type: 'spicy' as PizzasTypes,
     src: '/images/characters/pizzas/s001.png',
     icon: '/images/icons/spicy.png',
-    actions: [Actions.damage1]
+    actions: [
+      // Actions.saucyStatus,
+      Actions.clumsyStatus,
+      Actions.damage1
+    ]
   },
   v001: {
     name: 'Call Me Kalle',

@@ -26,5 +26,39 @@ export const BattleAnimations = {
 
     await utils.wait(100)
     onComplete()
+  },
+  async glob(event: Behaviour, onComplete: () => void) {
+    const div = document.createElement('div')
+
+    div.classList.add('glob-orb')
+
+    div.innerHTML = `
+      <svg viewBox="0 0 32 32" width="32" height="32">
+        <circle cx="16" cy="16" r="16" fill="${event.color}" />
+      </svg>`
+
+    div.classList.add(
+      event.caster?.data.team === 'player'
+        ? 'glob-orb-right'
+        : 'glob-orb-left'
+    )
+
+    div.addEventListener(
+      'animationend',
+      () => {
+        div.remove()
+      },
+      {
+        once: true
+      }
+    )
+
+    event.caster?.battle.element
+      .getDivElement()
+      ?.appendChild(div)
+
+    await utils.wait(820)
+
+    onComplete()
   }
 }

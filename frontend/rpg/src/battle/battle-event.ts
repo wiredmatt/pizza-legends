@@ -28,7 +28,9 @@ class BattleEvent {
         .replace(
           '{{TARGET}}',
           this.event.target?.data.name || ''
-        ) || ''
+        )
+        .replace('{{ACTION}}', this.event.action?.name || '') ||
+      ''
 
     const message = new TextMessage({
       text,
@@ -66,6 +68,41 @@ class BattleEvent {
       this.event.target.pizza.classList.remove(
         'battle-damage-blink'
       )
+    }
+
+    const statusTarget =
+      this.event.statusOnCaster == true
+        ? this.event.caster
+        : this.event.target
+
+    // if (this.event.action.targetType === 'friendly') { // for the future.
+    //   statusTarget = this.event.caster
+    // }
+
+    if (this.event.recover) {
+      if (!statusTarget) return
+
+      const _newHp = statusTarget.data.hp + this.event.recover
+      const newHp =
+        _newHp > statusTarget.data.maxHp
+          ? statusTarget.data.maxHp
+          : _newHp
+
+      statusTarget.updateInfo({
+        hp: newHp
+      })
+    }
+
+    if (this.event.status) {
+      statusTarget?.updateInfo({
+        status: { ...this.event.status }
+      })
+    }
+
+    if (this.event.status === null) {
+      statusTarget?.updateInfo({
+        status: null
+      })
     }
 
     resolve('stateChange')

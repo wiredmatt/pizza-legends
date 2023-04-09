@@ -1,5 +1,6 @@
+import utils from '@/utils'
 import { html, LitElement, PropertyValueMap } from 'lit'
-import { CombatantConfig } from 'types'
+import { Behaviour, CombatantConfig } from 'types'
 import Battle from './battle'
 
 export class LitCombatantHUD extends LitElement {
@@ -98,7 +99,12 @@ export class LitCombatantHUD extends LitElement {
           fill="#ffc934"
         />
       </svg>
-      <p class="combatant-status"></p>
+      <p
+        class="combatant-status"
+        data-status-active="${!!this.info.status?.type}"
+      >
+        ${this.info.status?.type}
+      </p>
     </div>`
   }
 
@@ -210,6 +216,63 @@ class Combatant {
     }
     this.element.info = { ...this.data, ...changes }
     this.element.updateInfo()
+  }
+
+  getPostEvents() {
+    if (this.data.status?.type === 'saucy') {
+      return [
+        {
+          type: 'textMessage',
+          text: `${this.data.name} is saucy!`
+        },
+        {
+          type: 'stateChange',
+          recover: 5,
+          statusOnCaster: true
+        }
+      ]
+    }
+
+    return []
+  }
+
+  decrementStatus() {
+    if (!this.data?.status) {
+      return null
+    }
+
+    if (this.data.status.expiresIn > 0) {
+      this.data.status.expiresIn -= 1
+    }
+
+    if (this.data.status.expiresIn === 0) {
+      const prevStatus = this.data.status.type
+
+      this.updateInfo({
+        status: undefined
+      })
+
+      return {
+        type: 'textMessage',
+        text: `${this.data.name} is no longer ${prevStatus}. Status expired.`
+      }
+    }
+  }
+
+  getReplacedEvents(events: Behaviour[]) {
+    if (
+      this.data.status?.type === 'clumsy' &&
+      utils.randomFromArray([true, false, false])
+    ) {
+      return [
+        {
+          type: 'textMessage',
+          text: `${this.data.name} floops over!`
+        }
+      ]
+    }
+
+    return events
   }
 }
 

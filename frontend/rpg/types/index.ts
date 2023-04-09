@@ -85,6 +85,11 @@ type BehaviourType =
   | 'changeMap'
   | 'battle'
 
+type Status = {
+  type: 'saucy' | 'burnt' | 'poisoned' | string
+  expiresIn: number
+} | null
+
 type Behaviour = {
   type: BehaviourType | string
   direction?: Direction
@@ -97,7 +102,12 @@ type Behaviour = {
   caster?: Combatant
   target?: Combatant
   damage?: number
+  recover?: number
   animation?: keyof typeof BattleAnimations
+  statusOnCaster?: boolean
+  status?: Status
+  action?: ActionType
+  color?: string
 }
 
 type Talking = {
@@ -115,7 +125,7 @@ type CombatantConfig = {
   xp: number
   maxXp: number
   level: number
-  status: any
+  status?: Status
   id: string
   actions: ActionType[]
 }

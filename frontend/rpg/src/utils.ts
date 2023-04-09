@@ -74,5 +74,8 @@ export default {
         return resolve(null)
       }, ms)
     )
+  },
+  randomFromArray<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)]
   }
 }

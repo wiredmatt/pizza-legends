@@ -112,6 +112,12 @@
 .combatant-status[data-status="clumsy"] {
   background: #582a79;
 }
+.combatant-status[data-status-active="true"] {
+  display: block;
+}
+.combatant-status[data-status-active="false"] {
+  display: none;
+}
 
 .pizza {
   position: absolute;
