@@ -4,6 +4,7 @@ import { ActionType } from '@/content/actions'
 import { PizzasTypes } from '@/content/pizzas'
 import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
+import KeyPressListener from '@/keyPressListener'
 import { GameMaps } from 'data/maps'
 
 type OwConfig = {
@@ -139,6 +140,21 @@ type SubmissionMenuConfig = {
   }) => void
 }
 
+type KeyboardMenuOption = {
+  label: string
+  description: string
+  handler: () => void
+  right?: () => string
+  disabled?: boolean
+}
+
+type KeyboardMenuConfig = {
+  options: KeyboardMenuOption[]
+  up?: KeyPressListener
+  down?: KeyPressListener
+  prevFocus?: HTMLButtonElement | null
+}
+
 export type {
   Animations,
   Behaviour,
@@ -152,6 +168,8 @@ export type {
   GameObjectConfig,
   GameObjectState,
   KeyMap,
+  KeyboardMenuConfig,
+  KeyboardMenuOption,
   OwConfig,
   PersonAnimations,
   SpriteConfig,
