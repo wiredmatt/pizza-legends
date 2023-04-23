@@ -52,14 +52,14 @@ class SubmissionMenu {
       attacks: [
         ...(this.config.caster?.data.actions.map(action => ({
           label: action.name,
-          description: '',
+          description: action.description || '',
           handler: () => {
             this.menuSubmit(action)
           }
         })) || []),
         backOption
       ],
-      items: [backOption, backOption]
+      items: [backOption]
     }
   }
 

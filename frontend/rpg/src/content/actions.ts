@@ -5,11 +5,13 @@ export type ActionType = {
   name: string
   success: Array<Behaviour>
   statusOnCaster?: boolean
+  description?: string
 }
 
 export const Actions = {
   damage1: {
     name: 'Whomp!',
+    description: 'Inflicts 10 damage to the target',
     success: [
       {
         type: 'textMessage',
@@ -28,6 +30,7 @@ export const Actions = {
   },
   saucyStatus: {
     name: 'Tomato Squeeze',
+    description: 'Recovers HP for 3 turns',
     success: [
       {
         type: 'textMessage',
@@ -46,6 +49,7 @@ export const Actions = {
   },
   clumsyStatus: {
     name: 'Olive Oil Spread',
+    description: "Lowers the target's accuracy for 3 turns",
     success: [
       {
         type: 'textMessage',
