@@ -4,11 +4,11 @@ import { KeyboardMenuConfig, KeyboardMenuOption } from 'types'
 
 export class LitMenu extends LitElement {
   options: KeyboardMenuOption[] = []
-  onElementReady: (element?: HTMLDivElement) => void
+  onElementReady: (element: HTMLDivElement) => void
 
   constructor(
     options: KeyboardMenuOption[],
-    onElementReady: (div?: HTMLDivElement) => void
+    onElementReady: (div: HTMLDivElement) => void
   ) {
     super()
     this.options = options
@@ -27,8 +27,8 @@ export class LitMenu extends LitElement {
             html`
               <div class="option">
                 <button
-                  data-disabled="${!!option.disabled}"
                   data-button="${i}"
+                  data-disabled="${!!option.disabled}"
                   data-description="${option.description}"
                 >
                   ${option.label}
@@ -54,7 +54,7 @@ export class LitMenu extends LitElement {
   ): void {
     super.firstUpdated(_changedProperties)
 
-    this.onElementReady(this.getDivElement())
+    this.onElementReady(this.getDivElement()!)
   }
 }
 
@@ -104,7 +104,11 @@ export class KeyboardMenu {
   element: LitMenu
   descriptionElement: LitDescription
 
-  constructor(config: KeyboardMenuConfig) {
+  constructor(
+    config: KeyboardMenuConfig = {
+      options: []
+    }
+  ) {
     this.config = config
 
     this.descriptionElement = new LitDescription(() => {
@@ -118,13 +122,11 @@ export class KeyboardMenu {
   }
 
   resetFocus() {
-    setTimeout(() => {
-      ;(
-        this.element.querySelectorAll(
-          'button[data-disabled="false"]'
-        )[0] as HTMLElement
-      ).focus() // focus first button
-    }, 5)
+    ;(
+      this.element.querySelectorAll(
+        'button[data-disabled="false"]'
+      )[0] as HTMLElement
+    ).focus() // focus first button
   }
 
   onElementReady = (element?: HTMLDivElement | LitElement) => {
@@ -145,12 +147,73 @@ export class KeyboardMenu {
           })
 
           button.addEventListener('focus', e => {
-            console.log('here')
+            console.log(button.dataset['button'])
             this.config.prevFocus = button
             this.descriptionElement.setText(
               button.dataset['description'] || ''
             )
           })
+        }
+      )
+
+      this.config.up = new KeyPressListener('ArrowUp', () => {
+        const current = Number(
+          this.config.prevFocus?.dataset['button']
+        )
+
+        const prevButton = Array.from(
+          this.element.querySelectorAll('button')
+        )
+          .reverse()
+          .sort((a, b) => {
+            return (
+              Number(b?.dataset['button']) -
+              Number(a?.dataset['button'])
+            )
+          })
+          .find((el: HTMLElement) => {
+            return (
+              Number(el?.dataset['button']) < current &&
+              el.dataset['disabled'] === 'false'
+            )
+          }) as HTMLElement | undefined
+
+        if (prevButton) {
+          prevButton.focus()
+        } else {
+          ;(
+            this.element!.querySelectorAll(
+              'button[data-disabled="false"]'
+            )[this.config.options.length - 1] as HTMLElement
+          ).focus()
+        }
+      })
+
+      this.config.down = new KeyPressListener(
+        'ArrowDown',
+        () => {
+          const current = Number(
+            this.config.prevFocus?.getAttribute('data-button')
+          )
+
+          const nextButton = Array.from(
+            this.element.querySelectorAll('button')
+          ).find((el: HTMLElement) => {
+            return (
+              Number(el?.dataset['button']) > current &&
+              el.dataset['disabled'] === 'false'
+            )
+          }) as HTMLElement | undefined
+
+          if (nextButton) {
+            nextButton.focus()
+          } else {
+            ;(
+              this.element!.querySelector(
+                'button[data-disabled="false"]'
+              ) as HTMLElement
+            ).focus()
+          }
         }
       )
 
@@ -166,75 +229,19 @@ export class KeyboardMenu {
     this.config.down?.unbind()
   }
 
-  init(container: HTMLDivElement) {
-    container.appendChild(this.descriptionElement)
-    container.appendChild(this.element)
-
-    this.config.up = new KeyPressListener('ArrowUp', () => {
-      const current = Number(
-        this.config.prevFocus?.getAttribute('data-button')
-      )
-
-      const prevButton = Array.from(
-        this.element.querySelectorAll('button')
-      )
-        .reverse()
-        // sort them so the prev button is the first one that is less than the current
-        .sort((a, b) => {
-          return (
-            Number(b?.dataset['button']) -
-            Number(a?.dataset['button'])
-          )
-        })
-        .find((el: HTMLElement) => {
-          return (
-            Number(el?.dataset['button']) < current &&
-            el.dataset['disabled'] === 'false'
-          )
-        }) as HTMLElement | undefined
-
-      if (prevButton) {
-        prevButton.focus()
-      } else {
-        ;(
-          this.element!.querySelectorAll(
-            'button[data-disabled="false"]'
-          )[this.config.options.length - 1] as HTMLElement
-        ).focus()
-      }
-    })
-
-    this.config.down = new KeyPressListener('ArrowDown', () => {
-      const current = Number(
-        this.config.prevFocus?.getAttribute('data-button')
-      )
-
-      const nextButton = Array.from(
-        this.element.querySelectorAll('button')
-      ).find((el: HTMLElement) => {
-        return (
-          Number(el?.dataset['button']) > current &&
-          el.dataset['disabled'] === 'false'
-        )
-      }) as HTMLElement | undefined
-
-      if (nextButton) {
-        nextButton.focus()
-      } else {
-        ;(
-          this.element!.querySelector(
-            'button[data-disabled="false"]'
-          ) as HTMLElement
-        ).focus()
-      }
-    })
+  init(container?: HTMLDivElement) {
+    container?.appendChild(this.descriptionElement)
+    container?.appendChild(this.element)
   }
 
   setOptions(options: KeyboardMenuOption[]) {
     this.config.options = options
     this.element.options = options
-    this.element.requestUpdate()
-    this.resetFocus()
+
+    this.element.updateComplete.then(() => {
+      console.log('COMPLETED')
+    })
+
     this.element.requestUpdate()
   }
 }

@@ -1,10 +1,11 @@
 import { ActionType } from '@/content/actions'
-import { SubmissionMenuConfig } from 'types'
+import { KeyboardMenuOption, SubmissionMenuConfig } from 'types'
 import { KeyboardMenu } from './keyboard-menu'
 
 class SubmissionMenu {
   config: SubmissionMenuConfig
   keyboardMenu: KeyboardMenu | null = null
+  container?: HTMLDivElement
 
   constructor(config: SubmissionMenuConfig) {
     this.config = config
@@ -15,7 +16,7 @@ class SubmissionMenu {
       label: 'Back',
       description: 'Go back to the previous menu',
       handler: () => {
-        this.keyboardMenu?.setOptions(this.pages.root)
+        this.showMenu(this.container, this.pages.root)
       }
     }
 
@@ -26,7 +27,7 @@ class SubmissionMenu {
           description: 'Choose an attack to use',
           handler: () => {
             console.log('go to attacks')
-            this.keyboardMenu?.setOptions(this.pages.attacks)
+            this.showMenu(this.container, this.pages.attacks)
           }
         },
         {
@@ -35,7 +36,7 @@ class SubmissionMenu {
           handler: () => {
             // Go to items page
             console.log('go to items')
-            this.keyboardMenu?.setOptions(this.pages.items)
+            this.showMenu(this.container, this.pages.items)
           },
           disabled: false
         },
@@ -58,7 +59,7 @@ class SubmissionMenu {
         })) || []),
         backOption
       ],
-      items: [backOption]
+      items: [backOption, backOption]
     }
   }
 
@@ -71,14 +72,17 @@ class SubmissionMenu {
     this.menuSubmit(this.config.caster?.data.actions[0])
   }
 
-  showMenu(container: HTMLDivElement) {
+  showMenu(
+    container?: HTMLDivElement,
+    options: KeyboardMenuOption[] = this.pages.root
+  ) {
+    this.keyboardMenu?.end() // End the previous menu
+
     this.keyboardMenu = new KeyboardMenu({
-      options: this.pages.root
+      options: options
     })
 
     this.keyboardMenu.init(container)
-
-    this.keyboardMenu.setOptions(this.pages.root)
   }
 
   menuSubmit(action: ActionType, instanceId?: string) {
@@ -97,7 +101,8 @@ class SubmissionMenu {
     })
   }
 
-  init(container: HTMLDivElement) {
+  init(container?: HTMLDivElement) {
+    this.container = container
     if (this.config.caster?.data.team === 'player') {
       // Show UI for choosing the move to use
       this.showMenu(container)
