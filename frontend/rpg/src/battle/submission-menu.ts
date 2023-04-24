@@ -1,4 +1,4 @@
-import { ActionType } from '@/content/actions'
+import { ActionType, Actions } from '@/content/actions'
 import { KeyboardMenuOption, SubmissionMenuConfig } from 'types'
 import { KeyboardMenu } from './keyboard-menu'
 
@@ -6,9 +6,36 @@ class SubmissionMenu {
   config: SubmissionMenuConfig
   keyboardMenu: KeyboardMenu | null = null
   container?: HTMLDivElement
+  items: {
+    actionId: string
+    quantity: number
+    instanceId: string
+  }[]
 
   constructor(config: SubmissionMenuConfig) {
     this.config = config
+
+    let quantityMap: Record<
+      string,
+      { actionId: string; quantity: number; instanceId: string }
+    > = {}
+
+    config.items.forEach(item => {
+      if (item.team === this.config.caster?.data.team) {
+        if (quantityMap[item.actionId]) {
+          quantityMap[item.actionId].quantity++
+        } else {
+          quantityMap[item.actionId] = {
+            actionId: item.actionId,
+            quantity: 1,
+            instanceId: item.instanceId
+          }
+        }
+      }
+    })
+
+    this.items = Object.values(quantityMap)
+    console.log(this.items)
   }
 
   get pages() {
@@ -59,7 +86,23 @@ class SubmissionMenu {
         })) || []),
         backOption
       ],
-      items: [backOption]
+      items: [
+        ...(this.items.map(item => ({
+          label:
+            Actions[item.actionId as keyof typeof Actions].name,
+          description:
+            Actions[item.actionId as keyof typeof Actions]
+              .description || '',
+          handler: () => {
+            this.menuSubmit(
+              Actions[item.actionId as keyof typeof Actions],
+              item.instanceId
+            )
+          },
+          right: () => `x${item.quantity}`
+        })) || []),
+        backOption
+      ]
     }
   }
 
@@ -97,7 +140,8 @@ class SubmissionMenu {
       action: action,
       target: action.statusOnCaster
         ? this.config.caster!
-        : this.config.target
+        : this.config.target,
+      instanceId: instanceId
     })
   }
 

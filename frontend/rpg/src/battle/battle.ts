@@ -1,6 +1,7 @@
 import C from '@/constants'
+import { ActionItems } from '@/content/actions'
 import { Pizzas } from '@/content/pizzas'
-import { html, LitElement, PropertyValueMap } from 'lit'
+import { LitElement, PropertyValueMap, html } from 'lit'
 import BattleEvent from './battle-event'
 import Combatant from './combatant'
 import TurnCycle from './turn-cycle'
@@ -49,6 +50,11 @@ class Battle {
   onComplete?: () => void
   combatants: { [key: string]: Combatant }
   activeCombatants: { [key: string]: Combatant }
+  items: {
+    actionId: keyof ActionItems
+    instanceId: string
+    team: 'player' | 'enemy'
+  }[]
   turnCycle: TurnCycle | null = null
 
   onElementReady = (element?: HTMLDivElement) => {
@@ -130,6 +136,29 @@ class Battle {
       player: this.combatants.player,
       enemy: this.combatants.enemy1
     }
+
+    this.items = [
+      {
+        actionId: 'item_recoverStatus',
+        instanceId: 'p1',
+        team: 'player'
+      },
+      {
+        actionId: 'item_recoverStatus',
+        instanceId: 'p2',
+        team: 'player'
+      },
+      {
+        actionId: 'item_recoverStatus',
+        instanceId: 'p3',
+        team: 'enemy'
+      },
+      {
+        actionId: 'item_recoverHp',
+        instanceId: 'p4',
+        team: 'player'
+      }
+    ]
   }
 
   init(container: HTMLDivElement, callback: () => void) {

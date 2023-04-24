@@ -5,9 +5,11 @@ import Combatant from './combatant'
 
 class TurnCycle {
   battle: Battle
-  onNewEvent: (
-    e: Behaviour
-  ) => Promise<{ action: ActionType; target: Combatant }>
+  onNewEvent: (e: Behaviour) => Promise<{
+    action: ActionType
+    target: Combatant
+    instanceId?: string
+  }>
   currentTeam: 'player' | 'enemy' = 'player'
 
   constructor(
@@ -33,6 +35,11 @@ class TurnCycle {
       target
     })
 
+    if (submission.instanceId) {
+      this.battle.items = this.battle.items.filter(
+        i => i.instanceId !== submission.instanceId
+      )
+    }
     const resultingEvents = caster.getReplacedEvents(
       submission.action.success
     )

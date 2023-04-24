@@ -1,6 +1,6 @@
 import { BattleAnimations } from '@/battle/battle-animations'
 import Combatant from '@/battle/combatant'
-import { ActionType } from '@/content/actions'
+import { ActionItems, ActionType } from '@/content/actions'
 import { PizzasTypes } from '@/content/pizzas'
 import GameMap from '@/gameMap'
 import GameObject from '@/gameObject'
@@ -137,7 +137,13 @@ type SubmissionMenuConfig = {
   onComplete: (sub: {
     action: ActionType
     target: Combatant
+    instanceId?: string
   }) => void
+  items: {
+    actionId: keyof ActionItems
+    instanceId: string
+    team: 'player' | 'enemy'
+  }[]
 }
 
 type KeyboardMenuOption = {

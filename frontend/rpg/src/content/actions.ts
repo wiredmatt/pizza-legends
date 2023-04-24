@@ -73,5 +73,53 @@ export const Actions = {
         text: '{{TARGET}} is slipping all around!'
       }
     ]
+  },
+  item_recoverStatus: {
+    name: 'Healing Lamp',
+    description: 'Removes any status applied to the caster',
+    statusOnCaster: true,
+    targetType: 'friendly',
+    success: [
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} uses a {{ACTION}}'
+      },
+      {
+        type: 'stateChange',
+        status: null,
+        targetType: 'friendly'
+      },
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} is feeling fresh!'
+      }
+    ]
+  },
+  item_recoverHp: {
+    name: 'Parmesan',
+    description: 'Heals 10 HP to the caster',
+    statusOnCaster: true,
+    targetType: 'friendly',
+    success: [
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} sprinkles on some {{ACTION}}'
+      },
+      {
+        type: 'stateChange',
+        recover: 10
+      },
+      {
+        type: 'textMessage',
+        text: '{{CASTER}} recovers HP!'
+      }
+    ]
   }
+}
+
+// A type that is the union of all the keys of the Actions object starting with `item_`
+export type ActionItems = {
+  [K in keyof typeof Actions as K extends `item_${string}`
+    ? K
+    : never]: typeof Actions[K]
 }
