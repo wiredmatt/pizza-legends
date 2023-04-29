@@ -60,6 +60,7 @@ class TurnCycle {
         target: this.battle.combatants[submission.replacement.id]
       })
 
+      this.updateTeams()
       this.nextTurn()
 
       return
@@ -95,6 +96,7 @@ class TurnCycle {
         caster,
         target: submission.target
       })
+      this.updateTeams()
     }
 
     // Do we have a winning team?
@@ -108,6 +110,7 @@ class TurnCycle {
         type: 'textMessage',
         text: `${caster.data.team} won the battle!`
       })
+      this.updateTeams()
       return
     }
 
@@ -124,7 +127,6 @@ class TurnCycle {
         team: submission.target.data.team
       })
 
-      console.log('replacement is,', replacement)
       if (!replacement) return
       await this.onNewEvent({
         type: 'textMessage',
@@ -132,6 +134,8 @@ class TurnCycle {
         caster: target,
         target: this.battle.combatants[replacement.id]
       })
+
+      this.updateTeams()
     }
 
     const postEvents = caster.getPostEvents()
@@ -151,7 +155,13 @@ class TurnCycle {
       await this.onNewEvent(expiredEvent)
     }
 
+    this.updateTeams()
     this.nextTurn()
+  }
+
+  updateTeams() {
+    this.battle.playerTeam.update()
+    this.battle.enemyTeam.update()
   }
 
   getWinner() {

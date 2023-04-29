@@ -70,12 +70,9 @@ class BattleEvent {
 
     if (!replacement || !team) return
 
-    console.log('replacement', replacement)
     console.log(this.battle.activeCombatants)
 
     const prevCombatant = this.battle.activeCombatants[team]
-
-    console.log('prev', prevCombatant)
 
     if (!prevCombatant) return
 
@@ -92,8 +89,6 @@ class BattleEvent {
       this.battle.combatants[replacement.id]
 
     this.battle.activeCombatants[team]?.updateInfo({})
-
-    console.log('is', this.battle.activeCombatants[team])
 
     await utils.wait(600)
 

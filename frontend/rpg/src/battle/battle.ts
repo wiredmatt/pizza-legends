@@ -4,6 +4,7 @@ import { Pizzas } from '@/content/pizzas'
 import { LitElement, PropertyValueMap, html } from 'lit'
 import BattleEvent from './battle-event'
 import Combatant from './combatant'
+import { Team } from './team'
 import TurnCycle from './turn-cycle'
 
 export class LitBattle extends LitElement {
@@ -56,6 +57,8 @@ class Battle {
     team: 'player' | 'enemy'
   }[]
   turnCycle: TurnCycle | null = null
+  playerTeam: Team
+  enemyTeam: Team
 
   onElementReady = (element?: HTMLDivElement) => {
     if (element) {
@@ -65,6 +68,12 @@ class Battle {
 
         combatant.init(element)
       })
+
+      this.playerTeam.init(element)
+      this.enemyTeam.init(element)
+
+      this.playerTeam.update()
+      this.enemyTeam.update()
 
       this.turnCycle = new TurnCycle(this, ev => {
         return new Promise(resolve => {
@@ -84,6 +93,18 @@ class Battle {
       this.onElementReady(e)
     })
 
+    this.playerTeam = new Team({
+      name: 'Hero',
+      team: 'player',
+      battle: this
+    })
+
+    this.enemyTeam = new Team({
+      name: 'Some vile enemy',
+      team: 'enemy',
+      battle: this
+    })
+
     this.combatants = {
       player: new Combatant(
         {
@@ -94,10 +115,6 @@ class Battle {
           xp: 60,
           maxXp: 100,
           level: 1,
-          // status: {
-          //   type: 'clumsy',
-          //   expiresIn: 3
-          // },
           id: 'player'
         },
         this

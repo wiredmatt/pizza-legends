@@ -3,6 +3,7 @@ import { LitScene } from './SceneTransition'
 import { LitBattle } from './battle/battle'
 import { LitCombatantHUD, LitPizza } from './battle/combatant'
 import { LitDescription, LitMenu } from './battle/keyboard-menu'
+import { LitTeam } from './battle/team'
 import Overworld from './overworld'
 import { LitTextMessage } from './textMessage'
 
@@ -20,6 +21,7 @@ customElements.define('pl-combatant-hud', LitCombatantHUD)
 customElements.define('pl-pizza', LitPizza)
 customElements.define('pl-menu', LitMenu)
 customElements.define('pl-description', LitDescription)
+customElements.define('pl-team', LitTeam)
 
 const main = () => {
   const ow = new Overworld({
