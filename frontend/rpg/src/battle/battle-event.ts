@@ -1,8 +1,9 @@
 import TextMessage from '@/textMessage'
 import utils from '@/utils'
-import { Behaviour } from 'types'
+import { Behaviour, CombatantConfig } from 'types'
 import Battle from './battle'
 import { BattleAnimations } from './battle-animations'
+import ReplacementMenu from './replacement-menu'
 import SubmissionMenu from './submission-menu'
 
 class BattleEvent {
@@ -48,10 +49,76 @@ class BattleEvent {
       caster: this.event.caster,
       target: this.event.target,
       onComplete: sub => resolve(sub),
-      items: this.battle.items
+      items: this.battle.items,
+      replacements: Object.values(this.battle.combatants).filter(
+        c => {
+          return (
+            c.data.id !== this.event.caster?.data.id &&
+            c.data.team === this.event.caster?.data.team &&
+            c.data.hp > 0
+          )
+        }
+      ),
+      replaceOnly: this.event.replaceOnly
     })
 
     menu.init(container)
+  }
+
+  async replace(resolve: (value: unknown) => void) {
+    const { replacement, team } = this.event
+
+    if (!replacement || !team) return
+
+    console.log('replacement', replacement)
+    console.log(this.battle.activeCombatants)
+
+    const prevCombatant = this.battle.activeCombatants[team]
+
+    console.log('prev', prevCombatant)
+
+    if (!prevCombatant) return
+
+    this.battle.activeCombatants[team] = null
+
+    prevCombatant.updateInfo({})
+
+    await utils.wait(600)
+
+    console.log(replacement.id)
+    console.log(this.battle.combatants)
+
+    this.battle.activeCombatants[team] =
+      this.battle.combatants[replacement.id]
+
+    this.battle.activeCombatants[team]?.updateInfo({})
+
+    console.log('is', this.battle.activeCombatants[team])
+
+    await utils.wait(600)
+
+    resolve('replace')
+  }
+
+  async replacementMenu(
+    resolve: (value: unknown) => { replacement: CombatantConfig }
+  ) {
+    const menu = new ReplacementMenu({
+      replacements: Object.values(this.battle.combatants).filter(
+        c => {
+          return (
+            c.data.id !==
+              this.battle.activeCombatants[this.event.team!]
+                ?.data.id &&
+            c.data.team === this.event.team &&
+            c.data.hp > 0
+          )
+        }
+      ),
+      onComplete: replacement => resolve({ replacement })
+    })
+
+    menu.init(this.battle.element.getDivElement()!)
   }
 
   async stateChange(resolve: (value: unknown) => void) {

@@ -49,7 +49,7 @@ class Battle {
   callback?: () => void
   onComplete?: () => void
   combatants: { [key: string]: Combatant }
-  activeCombatants: { [key: string]: Combatant }
+  activeCombatants: { [key: string]: Combatant | null }
   items: {
     actionId: keyof ActionItems
     instanceId: string
@@ -102,11 +102,25 @@ class Battle {
         },
         this
       ),
+      player2: new Combatant(
+        {
+          ...Pizzas['s002'],
+          team: 'player',
+          hp: 100,
+          maxHp: 100,
+          xp: 60,
+          maxXp: 100,
+          level: 1,
+          status: null,
+          id: 'player2'
+        },
+        this
+      ),
       enemy1: new Combatant(
         {
           ...Pizzas['v001'],
           team: 'enemy',
-          hp: 25,
+          hp: 10,
           maxHp: 50,
           xp: 20,
           maxXp: 100,
@@ -120,7 +134,7 @@ class Battle {
         {
           ...Pizzas['f001'],
           team: 'enemy',
-          hp: 25,
+          hp: 10,
           maxHp: 50,
           xp: 30,
           maxXp: 100,

@@ -37,7 +37,7 @@ export class LitCombatantHUD extends LitElement {
 
   get isActive() {
     return (
-      this.battle.activeCombatants[this.info.team].data.id ===
+      this.battle.activeCombatants[this.info.team]?.data.id ===
       this.info.id
     )
   }
@@ -144,7 +144,7 @@ export class LitPizza extends LitElement {
 
   get isActive() {
     return (
-      this.battle.activeCombatants[this.info.team].data.id ===
+      this.battle.activeCombatants[this.info.team]?.data.id ===
       this.info.id
     )
   }
@@ -216,6 +216,7 @@ class Combatant {
     }
     this.element.info = { ...this.data, ...changes }
     this.element.updateInfo()
+    this.pizza.updateInfo()
   }
 
   getPostEvents() {

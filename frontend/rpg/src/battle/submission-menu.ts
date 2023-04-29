@@ -1,5 +1,9 @@
 import { ActionType, Actions } from '@/content/actions'
-import { KeyboardMenuOption, SubmissionMenuConfig } from 'types'
+import {
+  CombatantConfig,
+  KeyboardMenuOption,
+  SubmissionMenuConfig
+} from 'types'
 import { KeyboardMenu } from './keyboard-menu'
 
 class SubmissionMenu {
@@ -35,7 +39,6 @@ class SubmissionMenu {
     })
 
     this.items = Object.values(quantityMap)
-    console.log(this.items)
   }
 
   get pages() {
@@ -44,6 +47,23 @@ class SubmissionMenu {
       description: 'Go back to the previous menu',
       handler: () => {
         this.showMenu(this.container, this.pages.root)
+      }
+    }
+
+    const replacements = [
+      ...this.config.replacements.map(replacement => ({
+        label: replacement.data.name,
+        description: replacement.data.description,
+        handler: () => {
+          console.log('hehehe')
+          this.menuSubmitReplacement(replacement.data)
+        }
+      }))
+    ]
+
+    if (this.config.replaceOnly) {
+      return {
+        root: [...replacements]
       }
     }
 
@@ -71,8 +91,10 @@ class SubmissionMenu {
           label: 'Swap',
           description: 'Change to another pizza',
           handler: () => {
-            // See pizza options
-            console.log('swap')
+            this.showMenu(
+              this.container,
+              this.pages.replacements
+            )
           }
         }
       ],
@@ -102,7 +124,8 @@ class SubmissionMenu {
           right: () => `x${item.quantity}`
         })) || []),
         backOption
-      ]
+      ],
+      replacements: [...replacements, backOption]
     }
   }
 
@@ -126,6 +149,13 @@ class SubmissionMenu {
     })
 
     this.keyboardMenu.init(container)
+  }
+
+  menuSubmitReplacement(replacement: CombatantConfig) {
+    this.keyboardMenu?.end()
+    this.config.onComplete({
+      replacement
+    })
   }
 
   menuSubmit(action: ActionType, instanceId?: string) {

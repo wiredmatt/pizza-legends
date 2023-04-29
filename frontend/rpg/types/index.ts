@@ -109,6 +109,9 @@ type Behaviour = {
   status?: Status
   action?: ActionType
   color?: string
+  replacement?: CombatantConfig
+  replaceOnly?: boolean
+  team?: string
 }
 
 type Talking = {
@@ -117,6 +120,7 @@ type Talking = {
 
 type CombatantConfig = {
   name: string
+  description: string
   type: PizzasTypes
   src: string
   icon: string
@@ -135,15 +139,18 @@ type SubmissionMenuConfig = {
   caster?: Combatant
   target?: Combatant
   onComplete: (sub: {
-    action: ActionType
-    target: Combatant
+    action?: ActionType
+    target?: Combatant
     instanceId?: string
+    replacement?: CombatantConfig
   }) => void
   items: {
     actionId: keyof ActionItems
     instanceId: string
     team: 'player' | 'enemy'
   }[]
+  replacements: Combatant[]
+  replaceOnly?: boolean
 }
 
 type KeyboardMenuOption = {
