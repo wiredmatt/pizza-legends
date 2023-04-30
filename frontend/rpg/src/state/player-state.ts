@@ -15,7 +15,7 @@ export class PlayerState {
       player: {
         ...Pizzas['s001'],
         team: 'player',
-        hp: 10,
+        hp: 100,
         maxHp: 100,
         xp: 90,
         maxXp: 100,
@@ -25,7 +25,7 @@ export class PlayerState {
       player2: {
         ...Pizzas['s002'],
         team: 'player',
-        hp: 10,
+        hp: 100,
         maxHp: 100,
         xp: 60,
         maxXp: 100,

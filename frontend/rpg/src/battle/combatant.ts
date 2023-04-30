@@ -6,12 +6,12 @@ import Battle from './battle'
 export class LitCombatantHUD extends LitElement {
   onElementReady: (element?: HTMLDivElement) => void
   info: CombatantConfig
-  battle: Battle
+  battle: Battle | null
 
   constructor(
     onElementReady: (div?: HTMLDivElement) => void,
     info: CombatantConfig,
-    battle: Battle
+    battle: Battle | null
   ) {
     super()
     this.onElementReady = onElementReady
@@ -36,10 +36,10 @@ export class LitCombatantHUD extends LitElement {
   }
 
   get isActive() {
-    return (
-      this.battle.activeCombatants[this.info.team]?.data.id ===
-      this.info.id
-    )
+    return !this.battle
+      ? true
+      : this.battle.activeCombatants[this.info.team]?.data.id ===
+          this.info.id
   }
 
   render() {
@@ -129,9 +129,9 @@ export class LitCombatantHUD extends LitElement {
 
 export class LitPizza extends LitElement {
   info: CombatantConfig
-  battle: Battle
+  battle: Battle | null
 
-  constructor(config: CombatantConfig, battle: Battle) {
+  constructor(config: CombatantConfig, battle: Battle | null) {
     super()
 
     this.info = config
@@ -143,10 +143,10 @@ export class LitPizza extends LitElement {
   }
 
   get isActive() {
-    return (
-      this.battle.activeCombatants[this.info.team]?.data.id ===
-      this.info.id
-    )
+    return !this.battle
+      ? true
+      : this.battle.activeCombatants[this.info.team]?.data.id ===
+          this.info.id
   }
 
   render() {
@@ -179,18 +179,15 @@ export class LitPizza extends LitElement {
 class Combatant {
   element: LitCombatantHUD
   pizza: LitPizza
-  battle: Battle
+  battle: Battle | null
   data: CombatantConfig
 
-  onElementReady = (element?: HTMLDivElement) => {
-    // setInterval(() => {
-    //   this.updateInfo({
-    //     hp: this.data.hp - 5
-    //   })
-    // }, 200)
-  }
+  onElementReady = (element?: HTMLDivElement) => {}
 
-  constructor(config: CombatantConfig, battle: Battle) {
+  constructor(
+    config: CombatantConfig,
+    battle: Battle | null = null
+  ) {
     this.battle = battle
     this.data = {
       ...config,
@@ -212,8 +209,12 @@ class Combatant {
 
   init(container: HTMLDivElement) {
     container.appendChild(this.element)
-    container.appendChild(this.pizza)
     this.element.updateInfo()
+  }
+
+  initPizza(container: HTMLDivElement) {
+    container.appendChild(this.pizza)
+    this.pizza.updateInfo()
   }
 
   updateInfo(changes: Partial<CombatantConfig>) {

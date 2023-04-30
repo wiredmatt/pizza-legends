@@ -2,6 +2,7 @@ import C from '@/constants'
 import { ActionItems } from '@/content/actions'
 import { Enemy } from '@/content/enemies'
 import { Pizzas } from '@/content/pizzas'
+import utils from '@/utils'
 import { LitElement, PropertyValueMap, html } from 'lit'
 import { CombatantConfig } from 'types'
 import BattleEvent from './battle-event'
@@ -76,6 +77,7 @@ class Battle {
         combatant.data.id = key
 
         combatant.init(element)
+        combatant.initPizza(element)
       })
 
       this.playerTeam.init(element)
@@ -124,6 +126,7 @@ class Battle {
 
           this.element.remove()
           this.onComplete()
+          utils.emitEvent('playerStateUpdated', {})
         }
       )
 

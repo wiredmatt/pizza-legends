@@ -6,6 +6,7 @@ import constants from './constants'
 import DirectionInput from './directionInput'
 import GameMap from './gameMap'
 import GameObject from './gameObject'
+import { HUD } from './hud'
 import KeyPressListener from './keyPressListener'
 import utils from './utils'
 
@@ -24,6 +25,7 @@ class Overworld {
   lastTime = new Date().getTime()
   currentTime = 0
   delta = 0
+  hud = new HUD()
 
   constructor(config: OwConfig) {
     this.element = config.element
@@ -169,6 +171,10 @@ class Overworld {
       //   who: 'erio'
       // }
     ])
+
+    this.hud = new HUD()
+
+    this.hud.init(this.element! as HTMLDivElement)
   }
 }
 
