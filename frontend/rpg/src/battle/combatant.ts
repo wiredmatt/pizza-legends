@@ -203,6 +203,10 @@ class Combatant {
     this.pizza = new LitPizza(config, battle)
   }
 
+  get givesXp() {
+    return this.data.level * 20
+  }
+
   init(container: HTMLDivElement) {
     container.appendChild(this.element)
     container.appendChild(this.pizza)

@@ -10,7 +10,6 @@ class TurnCycle {
     target: Combatant
     instanceId?: string
     replacement?: CombatantConfig
-    replaceOnly?: boolean
   }>
   currentTeam: 'player' | 'enemy' = 'player'
 
@@ -96,6 +95,19 @@ class TurnCycle {
         caster,
         target: submission.target
       })
+
+      if (submission.target.data.team === 'enemy') {
+        await this.onNewEvent({
+          type: 'textMessage',
+          text: `${this.battle.activeCombatants['player']?.data.name} gained ${submission.target.givesXp} XP`
+        })
+
+        await this.onNewEvent({
+          type: 'defeatFoe',
+          xp: submission.target.givesXp,
+          caster: this.battle.activeCombatants['player']!
+        })
+      }
       this.updateTeams()
     }
 

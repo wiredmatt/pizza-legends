@@ -112,7 +112,7 @@ class Battle {
           team: 'player',
           hp: 100,
           maxHp: 100,
-          xp: 60,
+          xp: 90,
           maxXp: 100,
           level: 1,
           id: 'player'

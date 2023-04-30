@@ -110,8 +110,8 @@ type Behaviour = {
   action?: ActionType
   color?: string
   replacement?: CombatantConfig
-  replaceOnly?: boolean
   team?: string
+  xp?: number
 }
 
 type Talking = {

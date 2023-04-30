@@ -58,8 +58,7 @@ class BattleEvent {
             c.data.hp > 0
           )
         }
-      ),
-      replaceOnly: this.event.replaceOnly
+      )
     })
 
     menu.init(container)
@@ -169,6 +168,39 @@ class BattleEvent {
     }
 
     resolve('stateChange')
+  }
+
+  async defeatFoe(resolve: (value: unknown) => void) {
+    let amount = this.event.xp || 0
+    const { caster } = this.event
+
+    if (!caster) return
+
+    const step = () => {
+      if (amount > 0) {
+        amount -= 1
+
+        caster.updateInfo({
+          xp: caster.data.xp + 1
+        })
+
+        if (caster.data.xp >= caster.data.maxXp) {
+          caster.updateInfo({
+            xp: 0,
+            maxXp: caster.data.maxXp + 100,
+            level: caster.data.level + 1
+          })
+        }
+
+        requestAnimationFrame(step)
+
+        return
+      }
+
+      resolve('defeatFoe')
+    }
+
+    requestAnimationFrame(step)
   }
 
   async animation(resolve: (value: unknown) => void) {
