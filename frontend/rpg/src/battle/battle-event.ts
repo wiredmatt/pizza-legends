@@ -55,7 +55,7 @@ class BattleEvent {
           return (
             c.data.id !== this.event.caster?.data.id &&
             c.data.team === this.event.caster?.data.team &&
-            c.data.hp > 0
+            c.data.hp! > 0
           )
         }
       )
@@ -105,7 +105,7 @@ class BattleEvent {
               this.battle.activeCombatants[this.event.team!]
                 ?.data.id &&
             c.data.team === this.event.team &&
-            c.data.hp > 0
+            c.data.hp! > 0
           )
         }
       ),
@@ -122,7 +122,7 @@ class BattleEvent {
       )
 
       this.event.target.updateInfo({
-        hp: this.event.target.data.hp - this.event.damage
+        hp: this.event.target.data.hp! - this.event.damage
       })
 
       await utils.wait(600)
@@ -144,7 +144,7 @@ class BattleEvent {
     if (this.event.recover) {
       if (!statusTarget) return
 
-      const _newHp = statusTarget.data.hp + this.event.recover
+      const _newHp = statusTarget.data.hp! + this.event.recover
       const newHp =
         _newHp > statusTarget.data.maxHp
           ? statusTarget.data.maxHp
@@ -181,10 +181,10 @@ class BattleEvent {
         amount -= 1
 
         caster.updateInfo({
-          xp: caster.data.xp + 1
+          xp: caster.data.xp! + 1
         })
 
-        if (caster.data.xp >= caster.data.maxXp) {
+        if (caster.data.xp! >= caster.data.maxXp) {
           caster.updateInfo({
             xp: 0,
             maxXp: caster.data.maxXp + 100,

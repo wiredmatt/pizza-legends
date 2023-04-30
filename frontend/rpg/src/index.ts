@@ -4,7 +4,9 @@ import { LitBattle } from './battle/battle'
 import { LitCombatantHUD, LitPizza } from './battle/combatant'
 import { LitDescription, LitMenu } from './battle/keyboard-menu'
 import { LitTeam } from './battle/team'
+import { enemies } from './content/enemies'
 import Overworld from './overworld'
+import { PlayerState } from './state/player-state'
 import { LitTextMessage } from './textMessage'
 
 declare global {
@@ -27,6 +29,9 @@ const main = () => {
   const ow = new Overworld({
     element: document.querySelector('.game-container')
   })
+
+  globalThis.playerState = new PlayerState()
+  globalThis.enemies = enemies
 
   logger.setup()
 

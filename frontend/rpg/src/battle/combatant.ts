@@ -25,13 +25,13 @@ export class LitCombatantHUD extends LitElement {
 
   get hpPercent() {
     return (
-      Math.floor((this.info.hp / this.info.maxHp) * 100) || 0
+      Math.floor((this.info.hp! / this.info.maxHp) * 100) || 0
     )
   }
 
   get xpPercent() {
     return (
-      Math.floor((this.info.xp / this.info.maxXp) * 100) || 0
+      Math.floor((this.info.xp! / this.info.maxXp) * 100) || 0
     )
   }
 
@@ -192,7 +192,10 @@ class Combatant {
 
   constructor(config: CombatantConfig, battle: Battle) {
     this.battle = battle
-    this.data = config
+    this.data = {
+      ...config,
+      hp: config.hp || config.maxHp
+    }
     this.element = new LitCombatantHUD(
       e => {
         this.onElementReady(e)

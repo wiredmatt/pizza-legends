@@ -1,18 +1,25 @@
 import C from '@/constants'
 import { ActionItems } from '@/content/actions'
+import { Enemy } from '@/content/enemies'
 import { Pizzas } from '@/content/pizzas'
 import { LitElement, PropertyValueMap, html } from 'lit'
+import { CombatantConfig } from 'types'
 import BattleEvent from './battle-event'
 import Combatant from './combatant'
 import { Team } from './team'
 import TurnCycle from './turn-cycle'
 
 export class LitBattle extends LitElement {
+  enemy: Enemy
   onElementReady: (element?: HTMLDivElement) => void
 
-  constructor(onElementReady: (div?: HTMLDivElement) => void) {
+  constructor(
+    enemy: Enemy,
+    onElementReady: (div?: HTMLDivElement) => void
+  ) {
     super()
     this.onElementReady = onElementReady
+    this.enemy = enemy
   }
 
   createRenderRoot() {
@@ -25,7 +32,7 @@ export class LitBattle extends LitElement {
         <img src="${C.HERO_SPRITE}" />
       </div>
       <div class="battle-enemy">
-        <img src="${C.NPC3_SPRITE}" />
+        <img src="${this.enemy.src}" />
       </div>
     </div>`
   }
@@ -48,7 +55,7 @@ export class LitBattle extends LitElement {
 class Battle {
   element: LitBattle
   callback?: () => void
-  onComplete?: () => void
+  onComplete: () => void
   combatants: { [key: string]: Combatant }
   activeCombatants: { [key: string]: Combatant | null }
   items: {
@@ -59,6 +66,8 @@ class Battle {
   turnCycle: TurnCycle | null = null
   playerTeam: Team
   enemyTeam: Team
+  enemy: Enemy
+  usedItems: { [key: string]: boolean } = {}
 
   onElementReady = (element?: HTMLDivElement) => {
     if (element) {
@@ -75,21 +84,59 @@ class Battle {
       this.playerTeam.update()
       this.enemyTeam.update()
 
-      this.turnCycle = new TurnCycle(this, ev => {
-        return new Promise(resolve => {
-          const evt = new BattleEvent(this, ev)
-          evt.init(resolve)
-        })
-      })
+      this.turnCycle = new TurnCycle(
+        this,
+        ev => {
+          return new Promise(resolve => {
+            const evt = new BattleEvent(this, ev)
+            evt.init(resolve)
+          })
+        },
+        winner => {
+          if (winner === 'player') {
+            Object.keys(globalThis.playerState!.pizzas).forEach(
+              id => {
+                const combatant = this.combatants[id]
+
+                if (combatant) {
+                  globalThis.playerState!.pizzas[id] = {
+                    ...combatant.data
+                  }
+                }
+              }
+            )
+
+            globalThis.playerState!.items =
+              globalThis.playerState!.items.filter(
+                item => !this.usedItems[item.instanceId]
+              )
+          } else {
+            // heal all pizzas of the player
+            Object.keys(globalThis.playerState!.pizzas).forEach(
+              id => {
+                const pizza = globalThis.playerState!.pizzas[id]
+
+                pizza.hp = pizza.maxHp
+                pizza.status = null
+              }
+            )
+          }
+
+          this.element.remove()
+          this.onComplete()
+        }
+      )
 
       this.turnCycle.init()
     }
   }
 
-  constructor(onComplete?: () => void) {
+  constructor(enemy: Enemy, onComplete: () => void) {
     this.callback = undefined
     this.onComplete = onComplete
-    this.element = new LitBattle(e => {
+    this.enemy = enemy
+
+    this.element = new LitBattle(this.enemy, e => {
       this.onElementReady(e)
     })
 
@@ -105,91 +152,57 @@ class Battle {
       battle: this
     })
 
-    this.combatants = {
-      player: new Combatant(
-        {
-          ...Pizzas['s001'],
-          team: 'player',
-          hp: 100,
-          maxHp: 100,
-          xp: 90,
-          maxXp: 100,
-          level: 1,
-          id: 'player'
-        },
-        this
-      ),
-      player2: new Combatant(
-        {
-          ...Pizzas['s002'],
-          team: 'player',
-          hp: 100,
-          maxHp: 100,
-          xp: 60,
-          maxXp: 100,
-          level: 1,
-          status: null,
-          id: 'player2'
-        },
-        this
-      ),
-      enemy1: new Combatant(
-        {
-          ...Pizzas['v001'],
-          team: 'enemy',
-          hp: 10,
-          maxHp: 50,
-          xp: 20,
-          maxXp: 100,
-          level: 1,
-          status: null,
-          id: 'enemy1'
-        },
-        this
-      ),
-      enemy2: new Combatant(
-        {
-          ...Pizzas['f001'],
-          team: 'enemy',
-          hp: 10,
-          maxHp: 50,
-          xp: 30,
-          maxXp: 100,
-          level: 1,
-          status: null,
-          id: 'enemy2'
-        },
-        this
-      )
-    }
-
+    this.combatants = {}
     this.activeCombatants = {
-      player: this.combatants.player,
-      enemy: this.combatants.enemy1
+      player: null,
+      enemy: null
     }
 
-    this.items = [
-      {
-        actionId: 'item_recoverStatus',
-        instanceId: 'p1',
+    globalThis.playerState?.lineup.forEach(id => {
+      this.addCombatant(
+        globalThis.playerState!.pizzas[id],
+        'player'
+      )
+    })
+
+    Object.keys(this.enemy.pizzas).forEach(id => {
+      this.addCombatant(
+        {
+          ...this.enemy.pizzas[id],
+          id: 'enemy_' + id
+        },
+        'enemy'
+      )
+    })
+
+    this.items = []
+
+    globalThis.playerState?.items.forEach(item => {
+      this.items.push({
+        ...item,
+        actionId: item.actionId,
+        instanceId: item.instanceId,
         team: 'player'
-      },
+      })
+    })
+  }
+
+  addCombatant(
+    combatant: CombatantConfig,
+    team: 'player' | 'enemy'
+  ) {
+    const c = new Combatant(
       {
-        actionId: 'item_recoverStatus',
-        instanceId: 'p2',
-        team: 'player'
+        ...combatant,
+        ...Pizzas[combatant.id as keyof typeof Pizzas],
+        team
       },
-      {
-        actionId: 'item_recoverStatus',
-        instanceId: 'p3',
-        team: 'enemy'
-      },
-      {
-        actionId: 'item_recoverHp',
-        instanceId: 'p4',
-        team: 'player'
-      }
-    ]
+      this
+    )
+    this.combatants[c.data.id] = c
+
+    this.activeCombatants[team] =
+      this.activeCombatants[team] || c
   }
 
   init(container: HTMLDivElement, callback: () => void) {

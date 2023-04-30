@@ -120,14 +120,14 @@ type Talking = {
 
 type CombatantConfig = {
   name: string
-  description: string
+  description?: string
   type: PizzasTypes
   src: string
-  icon: string
+  icon?: string
   team: 'player' | 'enemy'
-  hp: number
+  hp?: number
   maxHp: number
-  xp: number
+  xp?: number
   maxXp: number
   level: number
   status?: Status

@@ -160,9 +160,14 @@ class Overworld {
       //   type: 'changeMap',
       //   map: 'DemoRoom'
       // }
-      {
-        type: 'battle'
-      }
+      // {
+      //   type: 'battle',
+      //   who: 'beth'
+      // },
+      // {
+      //   type: 'battle',
+      //   who: 'erio'
+      // }
     ])
   }
 }

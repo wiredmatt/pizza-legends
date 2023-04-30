@@ -53,11 +53,13 @@ const gameObjects = new Map<string, GameObject>([
             {
               who: constants.NPC1,
               type: 'textMessage',
-              text: "I'm busy dud",
+              text: "I'll slice you up!",
               trigger: constants.HERO
             },
-            { type: 'textMessage', text: 'GTFO' },
-            { who: 'hero', type: 'walk', direction: 'left' }
+            {
+              type: 'battle',
+              who: constants.NPC1
+            }
           ]
         }
       ]
@@ -70,7 +72,23 @@ const gameObjects = new Map<string, GameObject>([
       y: utils.withGrid(5),
       src: constants.NPC2_SPRITE,
       shadow: constants.SHADOW_SPRITE,
-      animations: personAnimations
+      animations: personAnimations,
+      talking: [
+        {
+          events: [
+            {
+              who: constants.NPC2,
+              type: 'textMessage',
+              text: "I'll slice you up!",
+              trigger: constants.HERO
+            },
+            {
+              type: 'battle',
+              who: constants.NPC2
+            }
+          ]
+        }
+      ]
       // behaviourLoop: [
       //   {
       //     type: 'walk',

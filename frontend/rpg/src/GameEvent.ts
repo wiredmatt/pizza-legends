@@ -171,9 +171,12 @@ class GameEvent {
     const container = this.getContainer()
     if (!container) return reject('Container not found')
 
-    const battle = new Battle(() => {
-      resolve('battle')
-    })
+    const battle = new Battle(
+      globalThis.enemies[this.event.who!],
+      () => {
+        resolve('battle')
+      }
+    )
 
     battle.init(container as HTMLDivElement, () => {
       console.log('battle init complete')

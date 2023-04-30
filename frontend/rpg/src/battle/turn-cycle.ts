@@ -5,22 +5,25 @@ import Combatant from './combatant'
 
 class TurnCycle {
   battle: Battle
+  currentTeam: 'player' | 'enemy' = 'player'
   onNewEvent: (e: Behaviour) => Promise<{
     action: ActionType
     target: Combatant
     instanceId?: string
     replacement?: CombatantConfig
   }>
-  currentTeam: 'player' | 'enemy' = 'player'
+  onWinner: (winner: 'player' | 'enemy') => void
 
   constructor(
     battle: Battle,
     onNewEvent: (
       e: Behaviour
-    ) => Promise<{ action: ActionType; target: Combatant }>
+    ) => Promise<{ action: ActionType; target: Combatant }>,
+    onWinner: (winner: 'player' | 'enemy') => void
   ) {
     this.battle = battle
     this.onNewEvent = onNewEvent
+    this.onWinner = onWinner
   }
 
   async turn() {
@@ -44,8 +47,6 @@ class TurnCycle {
     })
 
     if (submission.replacement) {
-      console.log('REPLACING HEREEEE')
-
       await this.onNewEvent({
         type: 'replace',
         replacement: submission.replacement,
@@ -69,6 +70,8 @@ class TurnCycle {
       this.battle.items = this.battle.items.filter(
         i => i.instanceId !== submission.instanceId
       )
+
+      this.battle.usedItems[submission.instanceId] = true
     }
     const resultingEvents = caster.getReplacedEvents(
       submission.action.success
@@ -86,7 +89,7 @@ class TurnCycle {
     }
 
     // Did the target die?
-    const targetDead = submission.target.data.hp <= 0
+    const targetDead = submission.target.data.hp! <= 0
 
     if (targetDead) {
       await this.onNewEvent({
@@ -123,6 +126,8 @@ class TurnCycle {
         text: `${caster.data.team} won the battle!`
       })
       this.updateTeams()
+
+      this.onWinner(winner)
       return
     }
 
@@ -183,7 +188,7 @@ class TurnCycle {
     }
     Object.values(this.battle.combatants).forEach(c => {
       console.log(c)
-      if (c.data.hp > 0) {
+      if (c.data.hp! > 0) {
         aliveTeams[c.data.team] = true
       }
     })
@@ -205,10 +210,10 @@ class TurnCycle {
   }
 
   async init() {
-    // await this.onNewEvent({
-    //   type: 'textMessage',
-    //   text: 'The Battle is starting'
-    // })
+    await this.onNewEvent({
+      type: 'textMessage',
+      text: `${this.battle.enemy.name} challenges you to a pizza battle!`
+    })
 
     this.turn()
   }
