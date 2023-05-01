@@ -28,9 +28,6 @@
       "@data": [
         "./data"
       ],
-      "@logger": [
-        "./logger/"
-      ],
       "@pl-types": [
         "./types/"
       ],
@@ -50,7 +47,6 @@
   },
   "include": [
     "./data/**/*",
-    "./logger/**/*",
     "./types/**/*",
     "./src/**/*"
   ]

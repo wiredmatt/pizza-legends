@@ -1,4 +1,3 @@
-import logger from '@logger'
 import { SpriteConfig } from '@pl-types'
 import GameObject from './gameObject'
 import utils from './utils'
@@ -54,16 +53,6 @@ class Sprite {
       const frame = animation[this.currentAnimationFrame]
       return frame
     } else {
-      logger.error(
-        `${typeof this} - ${typeof arguments.callee.name}`,
-        `currentAnimation: ${this.currentAnimation}
-        animations: ${
-          this.animations
-            ? Object.keys(this.animations).join(',')
-            : 'null'
-        }`
-      )
-
       return undefined
     }
   }

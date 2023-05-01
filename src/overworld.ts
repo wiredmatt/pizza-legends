@@ -1,7 +1,6 @@
 import { maps } from '@data'
 import type { OwConfig } from '@pl-types'
 import { GameMaps } from 'data/maps'
-import logger from 'logger'
 import constants from './constants'
 import DirectionInput from './directionInput'
 import GameMap from './gameMap'
@@ -67,12 +66,6 @@ class Overworld {
 
   gameLoop() {
     const cameraPerson = this.map?.gameObjects.get('hero')
-    if (!cameraPerson) {
-      logger.error(
-        'Overworld.gameLoop',
-        'cameraPerson is undefined'
-      )
-    }
 
     this.currentTime = new Date().getTime()
     this.delta = this.currentTime - this.lastTime
@@ -137,7 +130,6 @@ class Overworld {
 
   changeMap(mapId?: GameMaps) {
     if (!mapId) {
-      logger.error('Overworld.changeMap', 'mapId is undefined')
       return
     }
 

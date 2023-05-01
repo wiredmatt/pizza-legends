@@ -1,4 +1,3 @@
-import logger from '@logger'
 import { LitScene } from './SceneTransition'
 import { LitBattle } from './battle/battle'
 import { LitCombatantHUD, LitPizza } from './battle/combatant'
@@ -38,8 +37,6 @@ const main = () => {
 
   globalThis.playerState = new PlayerState()
   globalThis.enemies = enemies
-
-  logger.setup()
 
   ow.init()
 }
