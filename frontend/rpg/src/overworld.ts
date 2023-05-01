@@ -106,12 +106,24 @@ class Overworld {
         this.currentTime - (this.delta % this.interval)
     }
 
-    requestAnimationFrame(() => this.gameLoop())
+    if (!this.map?.isPaused) {
+      requestAnimationFrame(() => this.gameLoop())
+    }
   }
 
   bindActionInput() {
     new KeyPressListener('Enter', () => {
       this.map?.checkForActionCutscene()
+    })
+
+    new KeyPressListener('Escape', () => {
+      if (!this.map?.isCutscenePlaying) {
+        this.map?.startCutscene([
+          {
+            type: 'pause'
+          }
+        ])
+      }
     })
   }
 

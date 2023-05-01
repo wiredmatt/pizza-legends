@@ -2,6 +2,7 @@ import { Behaviour, GameEventConfig } from 'types'
 import SceneTransition from './SceneTransition'
 import Battle from './battle/battle'
 import GameMap from './gameMap'
+import { PauseMenu } from './pause-menu'
 import Person from './person'
 import TextMessage from './textMessage'
 import utils from './utils'
@@ -9,6 +10,7 @@ import utils from './utils'
 class GameEvent {
   map: GameMap
   event: Behaviour
+  pauseMenu: PauseMenu | null = null
 
   constructor({ map, event }: GameEventConfig) {
     this.map = map
@@ -181,6 +183,21 @@ class GameEvent {
     battle.init(container as HTMLDivElement, () => {
       console.log('battle init complete')
     })
+  }
+
+  pause(resolve: (value: unknown) => void) {
+    this.map.isPaused = true
+
+    this.pauseMenu = new PauseMenu({
+      onComplete: () => {
+        this.map.isPaused = false
+        this.map.overworld?.gameLoop()
+
+        return resolve('pause')
+      }
+    })
+
+    this.pauseMenu.init(this.getContainer() as HTMLDivElement)
   }
 }
 

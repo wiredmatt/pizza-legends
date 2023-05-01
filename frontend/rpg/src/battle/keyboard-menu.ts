@@ -103,11 +103,13 @@ export class KeyboardMenu {
   config: KeyboardMenuConfig
   element: LitMenu
   descriptionElement: LitDescription
+  descriptionContainer?: HTMLDivElement
 
   constructor(
     config: KeyboardMenuConfig = {
       options: []
-    }
+    },
+    descriptionContainer?: HTMLDivElement
   ) {
     this.config = config
 
@@ -119,6 +121,8 @@ export class KeyboardMenu {
       this.config.options,
       this.onElementReady
     )
+
+    this.descriptionContainer = descriptionContainer
   }
 
   resetFocus() {
@@ -229,9 +233,13 @@ export class KeyboardMenu {
     this.config.down?.unbind()
   }
 
-  init(container?: HTMLDivElement) {
-    container?.appendChild(this.descriptionElement)
-    container?.appendChild(this.element)
+  init(container: HTMLDivElement) {
+    container.appendChild(this.element)
+
+    const descriptionContainer =
+      this.descriptionContainer || container
+
+    descriptionContainer?.appendChild(this.descriptionElement)
   }
 
   setOptions(options: KeyboardMenuOption[]) {

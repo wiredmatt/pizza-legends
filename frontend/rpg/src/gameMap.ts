@@ -18,6 +18,7 @@ class GameMap {
   isCutscenePlaying = false
   cutsceneSpaces: CutsceneSpaces
   overworld: Overworld | null
+  isPaused: boolean = false
 
   constructor(config: GameMapConfig) {
     this.gameObjects = config.gameObjects

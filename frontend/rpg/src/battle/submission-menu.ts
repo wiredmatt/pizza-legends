@@ -50,22 +50,16 @@ class SubmissionMenu {
       }
     }
 
-    const replacements = [
-      ...this.config.replacements.map(replacement => ({
+    const replacements = this.config.replacements.map(
+      replacement => ({
         label: replacement.data.name,
-        description: replacement.data.description,
+        description: replacement.data.description || '',
         handler: () => {
           console.log('hehehe')
           this.menuSubmitReplacement(replacement.data)
         }
-      }))
-    ]
-
-    if (this.config.replaceOnly) {
-      return {
-        root: [...replacements]
-      }
-    }
+      })
+    )
 
     return {
       root: [
@@ -73,7 +67,6 @@ class SubmissionMenu {
           label: 'Attack',
           description: 'Choose an attack to use',
           handler: () => {
-            console.log('go to attacks')
             this.showMenu(this.container, this.pages.attacks)
           }
         },
@@ -81,8 +74,6 @@ class SubmissionMenu {
           label: 'Items',
           description: 'Choose an item to use',
           handler: () => {
-            // Go to items page
-            console.log('go to items')
             this.showMenu(this.container, this.pages.items)
           },
           disabled: false
@@ -178,7 +169,6 @@ class SubmissionMenu {
   init(container?: HTMLDivElement) {
     this.container = container
     if (this.config.caster?.data.team === 'player') {
-      // Show UI for choosing the move to use
       this.showMenu(container)
     } else {
       this.decide()

@@ -55,15 +55,17 @@ export class HUD {
   constructor() {}
 
   init(element: HTMLDivElement) {
-    this.element = new LitHUD(element, () => {
-      this.update()
-    })
+    this.element = new LitHUD(element, () => {})
 
     element.appendChild(this.element)
 
     this.update()
 
     document.addEventListener('playerStateUpdated', () => {
+      this.update()
+    })
+
+    document.addEventListener('lineupChange', () => {
       this.update()
     })
   }

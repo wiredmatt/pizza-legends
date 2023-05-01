@@ -7,6 +7,7 @@ import { LitTeam } from './battle/team'
 import { enemies } from './content/enemies'
 import { LitHUD } from './hud'
 import Overworld from './overworld'
+import { LitPauseMenu } from './pause-menu'
 import { PlayerState } from './state/player-state'
 import { LitTextMessage } from './textMessage'
 
@@ -15,6 +16,7 @@ declare global {
     personWalkingComplete: CustomEvent<{ who: string }>
     personStandingComplete: CustomEvent<{ who: string }>
     playerStateUpdated: CustomEvent<{}>
+    lineupChange: CustomEvent<{}>
   }
 }
 
@@ -27,6 +29,7 @@ customElements.define('pl-menu', LitMenu)
 customElements.define('pl-description', LitDescription)
 customElements.define('pl-team', LitTeam)
 customElements.define('pl-ow-hud', LitHUD)
+customElements.define('pl-pause-menu', LitPauseMenu)
 
 const main = () => {
   const ow = new Overworld({
