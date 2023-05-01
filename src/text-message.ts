@@ -1,6 +1,6 @@
 import { html, LitElement, PropertyValueMap } from 'lit'
-import KeyPressListener from './keyPressListener'
-import { RevealingText } from './revealingText'
+import KeyPressListener from './key-press-listener'
+import { RevealingText } from './revaling-text'
 
 export class LitTextMessage extends LitElement {
   text: string

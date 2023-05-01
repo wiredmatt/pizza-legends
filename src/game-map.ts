@@ -4,8 +4,8 @@ import {
   Direction,
   GameMapConfig
 } from '@pl-types'
-import GameEvent from './GameEvent'
-import GameObject from './gameObject'
+import GameEvent from './game-event'
+import GameObject from './game-object'
 import Overworld from './overworld'
 import Person from './person'
 import utils from './utils'

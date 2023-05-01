@@ -1,4 +1,4 @@
-import TextMessage from '@/textMessage'
+import TextMessage from '@/text-message'
 import utils from '@/utils'
 import { Behaviour, CombatantConfig } from '@pl-types'
 import Battle from './battle'

@@ -3,10 +3,10 @@ import type { OwConfig } from '@pl-types'
 import { GameMaps } from 'data/maps'
 import constants from './constants'
 import DirectionInput from './directionInput'
-import GameMap from './gameMap'
-import GameObject from './gameObject'
+import GameMap from './game-map'
+import GameObject from './game-object'
 import { HUD } from './hud'
-import KeyPressListener from './keyPressListener'
+import KeyPressListener from './key-press-listener'
 import utils from './utils'
 
 class Overworld {

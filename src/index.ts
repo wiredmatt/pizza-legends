@@ -1,4 +1,3 @@
-import { LitScene } from './SceneTransition'
 import { LitBattle } from './battle/battle'
 import { LitCombatantHUD, LitPizza } from './battle/combatant'
 import { LitDescription, LitMenu } from './battle/keyboard-menu'
@@ -7,8 +6,9 @@ import { enemies } from './content/enemies'
 import { LitHUD } from './hud'
 import Overworld from './overworld'
 import { LitPauseMenu } from './pause-menu'
+import { LitScene } from './scene-transition'
 import { PlayerState } from './state/player-state'
-import { LitTextMessage } from './textMessage'
+import { LitTextMessage } from './text-message'
 
 declare global {
   interface GlobalEventHandlersEventMap {

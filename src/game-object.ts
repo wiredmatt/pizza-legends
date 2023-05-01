@@ -5,8 +5,8 @@ import type {
   GameObjectState,
   Talking
 } from '@pl-types'
-import GameEvent from './GameEvent'
-import GameMap from './gameMap'
+import GameEvent from './game-event'
+import GameMap from './game-map'
 import Sprite from './sprite'
 
 class GameObject {

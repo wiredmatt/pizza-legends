@@ -1,6 +1,6 @@
 import { LitElement, PropertyValueMap, html } from 'lit'
 import { KeyboardMenu } from './battle/keyboard-menu'
-import KeyPressListener from './keyPressListener'
+import KeyPressListener from './key-press-listener'
 
 export class LitPauseMenu extends LitElement {
   onElementReady: (element: HTMLDivElement) => void

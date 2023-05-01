@@ -1,10 +1,10 @@
 import { Behaviour, GameEventConfig } from '@pl-types'
-import SceneTransition from './SceneTransition'
 import Battle from './battle/battle'
-import GameMap from './gameMap'
+import GameMap from './game-map'
 import { PauseMenu } from './pause-menu'
 import Person from './person'
-import TextMessage from './textMessage'
+import SceneTransition from './scene-transition'
+import TextMessage from './text-message'
 import utils from './utils'
 
 class GameEvent {

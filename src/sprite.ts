@@ -1,5 +1,5 @@
 import { SpriteConfig } from '@pl-types'
-import GameObject from './gameObject'
+import GameObject from './game-object'
 import utils from './utils'
 
 class Sprite {
