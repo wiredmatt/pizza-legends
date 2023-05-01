@@ -1,4 +1,4 @@
-import { Direction } from 'types'
+import { Direction } from '@pl-types'
 import constants from './constants'
 
 export default {

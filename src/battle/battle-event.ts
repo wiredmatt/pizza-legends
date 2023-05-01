@@ -1,6 +1,6 @@
 import TextMessage from '@/textMessage'
 import utils from '@/utils'
-import { Behaviour, CombatantConfig } from 'types'
+import { Behaviour, CombatantConfig } from '@pl-types'
 import Battle from './battle'
 import { BattleAnimations } from './battle-animations'
 import ReplacementMenu from './replacement-menu'

@@ -3,7 +3,7 @@ import {
   CombatantConfig,
   KeyboardMenuOption,
   SubmissionMenuConfig
-} from 'types'
+} from '@pl-types'
 import { KeyboardMenu } from './keyboard-menu'
 
 class SubmissionMenu {

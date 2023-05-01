@@ -1,5 +1,5 @@
 import utils from '@/utils'
-import { Behaviour } from 'types'
+import { Behaviour } from '@pl-types'
 
 export const BattleAnimations = {
   async spin(event: Behaviour, onComplete: () => void) {

@@ -1,4 +1,4 @@
-import { CombatantConfig } from 'types'
+import { CombatantConfig } from '@pl-types'
 import Combatant from './combatant'
 import { KeyboardMenu } from './keyboard-menu'
 

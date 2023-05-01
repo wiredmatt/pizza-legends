@@ -1,6 +1,6 @@
 import utils from '@/utils'
+import { Behaviour, CombatantConfig } from '@pl-types'
 import { html, LitElement, PropertyValueMap } from 'lit'
-import { Behaviour, CombatantConfig } from 'types'
 import Battle from './battle'
 
 export class LitCombatantHUD extends LitElement {

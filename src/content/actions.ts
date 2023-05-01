@@ -1,5 +1,5 @@
 import { BattleAnimations } from '@/battle/battle-animations'
-import { Behaviour } from 'types'
+import { Behaviour } from '@pl-types'
 
 export type ActionType = {
   name: string

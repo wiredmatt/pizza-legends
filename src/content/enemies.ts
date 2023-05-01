@@ -1,4 +1,4 @@
-import { CombatantConfig } from 'types'
+import { CombatantConfig } from '@pl-types'
 import { Pizzas } from './pizzas'
 
 export type Enemy = {

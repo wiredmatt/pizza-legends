@@ -1,4 +1,4 @@
-import { GameMapConfig } from 'types'
+import { GameMapConfig } from '@pl-types'
 import demo from './demo'
 import kitchen from './kitchen'
 

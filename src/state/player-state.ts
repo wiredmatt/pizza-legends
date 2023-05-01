@@ -1,7 +1,7 @@
 import { ActionItems } from '@/content/actions'
 import { Pizzas } from '@/content/pizzas'
 import utils from '@/utils'
-import { CombatantConfig } from 'types'
+import { CombatantConfig } from '@pl-types'
 
 export class PlayerState {
   pizzas: { [key: string]: CombatantConfig } = {}

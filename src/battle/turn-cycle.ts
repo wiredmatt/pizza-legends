@@ -1,5 +1,5 @@
 import { ActionType } from '@/content/actions'
-import { Behaviour, CombatantConfig } from 'types'
+import { Behaviour, CombatantConfig } from '@pl-types'
 import Battle from './battle'
 import Combatant from './combatant'
 

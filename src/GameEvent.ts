@@ -1,4 +1,4 @@
-import { Behaviour, GameEventConfig } from 'types'
+import { Behaviour, GameEventConfig } from '@pl-types'
 import SceneTransition from './SceneTransition'
 import Battle from './battle/battle'
 import GameMap from './gameMap'

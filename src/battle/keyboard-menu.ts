@@ -1,6 +1,9 @@
 import KeyPressListener from '@/keyPressListener'
+import {
+  KeyboardMenuConfig,
+  KeyboardMenuOption
+} from '@pl-types'
 import { LitElement, PropertyValueMap, html } from 'lit'
-import { KeyboardMenuConfig, KeyboardMenuOption } from 'types'
 
 export class LitMenu extends LitElement {
   options: KeyboardMenuOption[] = []
