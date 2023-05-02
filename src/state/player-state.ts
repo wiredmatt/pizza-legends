@@ -10,41 +10,42 @@ export class PlayerState {
     actionId: keyof ActionItems
     instanceId: string
   }[] = []
+  storyFlags: { [key: string]: boolean } = {}
 
   constructor() {
     this.pizzas = {
       player: {
         ...Pizzas['s001'],
         team: 'player',
-        hp: 100,
+        hp: 1,
         maxHp: 100,
         xp: 90,
         maxXp: 100,
         level: 1,
         id: 'player'
-      },
-      player2: {
-        ...Pizzas['s002'],
-        team: 'player',
-        hp: 100,
-        maxHp: 100,
-        xp: 60,
-        maxXp: 100,
-        level: 1,
-        status: null,
-        id: 'player2'
-      },
-      player3: {
-        ...Pizzas['v001'],
-        team: 'player',
-        hp: 100,
-        maxHp: 100,
-        xp: 60,
-        maxXp: 100,
-        level: 1,
-        status: null,
-        id: 'player3'
       }
+      // player2: {
+      //   ...Pizzas['s002'],
+      //   team: 'player',
+      //   hp: 1,
+      //   maxHp: 100,
+      //   xp: 60,
+      //   maxXp: 100,
+      //   level: 1,
+      //   status: null,
+      //   id: 'player2'
+      // },
+      // player3: {
+      //   ...Pizzas['v001'],
+      //   team: 'player',
+      //   hp: 100,
+      //   maxHp: 100,
+      //   xp: 60,
+      //   maxXp: 100,
+      //   level: 1,
+      //   status: null,
+      //   id: 'player3'
+      // }
     }
 
     this.lineup = Object.keys(this.pizzas).slice(0, 2)

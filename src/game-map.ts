@@ -86,7 +86,19 @@ class GameMap {
         map: this
       })
 
-      await eventHandler.init()
+      const result = await eventHandler.init()
+
+      console.log('r', result)
+
+      if (event.type === 'battle' && result !== 'player') {
+        console.log('You lost the battle')
+        break
+      } else if (
+        event.type === 'battle' &&
+        result === 'player'
+      ) {
+        console.log('You won the battle')
+      }
     }
 
     this.isCutscenePlaying = false
@@ -119,7 +131,14 @@ class GameMap {
         match &&
         match.talking.length
       ) {
-        this.startCutscene(match.talking[0].events)
+        const relevantScenario = match.talking.find(scenario =>
+          (scenario?.requires || []).every(sf => {
+            return playerState?.storyFlags[sf]
+          })
+        )
+
+        relevantScenario &&
+          this.startCutscene(relevantScenario.events)
       }
     }
 

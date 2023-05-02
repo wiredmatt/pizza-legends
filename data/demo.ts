@@ -1,5 +1,5 @@
 import constants from '@/constants'
-import GameObject from '@/gameObject'
+import GameObject from '@/game-object'
 import Person from '@/person'
 import utils from '@/utils'
 import { GameMapConfig } from '@pl-types'
@@ -49,6 +49,17 @@ const gameObjects = new Map<string, GameObject>([
       ],
       talking: [
         {
+          requires: ['TALKED_TO_ERIO'],
+          events: [
+            {
+              who: constants.NPC1,
+              type: 'textMessage',
+              text: "Isn't Erio the best?",
+              trigger: constants.HERO
+            }
+          ]
+        },
+        {
           events: [
             {
               who: constants.NPC1,
@@ -58,7 +69,14 @@ const gameObjects = new Map<string, GameObject>([
             },
             {
               type: 'battle',
-              who: constants.NPC1
+              who: constants.NPC1,
+              flag: 'DEFEATED_BETH'
+            },
+            {
+              who: constants.NPC1,
+              type: 'textMessage',
+              text: 'Oh... I lost...',
+              trigger: constants.HERO
             }
           ]
         }
@@ -76,15 +94,22 @@ const gameObjects = new Map<string, GameObject>([
       talking: [
         {
           events: [
+            // {
+            //   who: constants.NPC2,
+            //   type: 'textMessage',
+            //   text: "I'll slice you up!",
+            //   trigger: constants.HERO
+            // },
+            // {
+            //   type: 'battle',
+            //   who: constants.NPC2
+            // }
             {
               who: constants.NPC2,
               type: 'textMessage',
-              text: "I'll slice you up!",
-              trigger: constants.HERO
-            },
-            {
-              type: 'battle',
-              who: constants.NPC2
+              text: "Bahaha! I'm the best!",
+              trigger: constants.HERO,
+              flag: 'TALKED_TO_ERIO'
             }
           ]
         }

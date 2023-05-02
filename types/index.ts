@@ -2,9 +2,9 @@ import { BattleAnimations } from '@/battle/battle-animations'
 import Combatant from '@/battle/combatant'
 import { ActionItems, ActionType } from '@/content/actions'
 import { PizzasTypes } from '@/content/pizzas'
-import GameMap from '@/gameMap'
-import GameObject from '@/gameObject'
-import KeyPressListener from '@/keyPressListener'
+import GameMap from '@/game-map'
+import GameObject from '@/game-object'
+import KeyPressListener from '@/key-press-listener'
 import { GameMaps } from 'data/maps'
 
 type OwConfig = {
@@ -112,9 +112,11 @@ type Behaviour = {
   replacement?: CombatantConfig
   team?: string
   xp?: number
+  flag?: string
 }
 
 type Talking = {
+  requires?: string[]
   events: Behaviour[]
 }[]
 

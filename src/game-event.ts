@@ -139,7 +139,10 @@ class GameEvent {
 
       const message = new TextMessage({
         text: this.event.text,
-        onComplete: () => resolve('textMessage')
+        onComplete: () => {
+          this.checkProgression()
+          resolve('textMessage')
+        }
       })
 
       message.init(container as HTMLDivElement)
@@ -160,6 +163,7 @@ class GameEvent {
         this.map.overworld?.changeMap(this.event.map)
         resolve(`chaged map to ${this.event.map}`)
         transition.fadeOut()
+        this.checkProgression()
       })
     } else {
       reject(`No map specified`)
@@ -175,8 +179,12 @@ class GameEvent {
 
     const battle = new Battle(
       globalThis.enemies[this.event.who!],
-      () => {
-        resolve('battle')
+      winner => {
+        resolve(winner)
+
+        if (winner === 'player') {
+          this.checkProgression() // only if player wins
+        }
       }
     )
 
@@ -198,6 +206,12 @@ class GameEvent {
     })
 
     this.pauseMenu.init(this.getContainer() as HTMLDivElement)
+  }
+
+  checkProgression() {
+    if (!this.event.flag) return
+    globalThis.playerState!.storyFlags[this.event.flag] = true
+    return this.event.flag
   }
 }
 

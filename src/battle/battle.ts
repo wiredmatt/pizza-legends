@@ -56,7 +56,7 @@ export class LitBattle extends LitElement {
 class Battle {
   element: LitBattle
   callback?: () => void
-  onComplete: () => void
+  onComplete: (winner: string) => void
   combatants: { [key: string]: Combatant }
   activeCombatants: { [key: string]: Combatant | null }
   items: {
@@ -125,7 +125,7 @@ class Battle {
           }
 
           this.element.remove()
-          this.onComplete()
+          this.onComplete(winner)
           utils.emitEvent('playerStateUpdated', {})
         }
       )
@@ -134,7 +134,10 @@ class Battle {
     }
   }
 
-  constructor(enemy: Enemy, onComplete: () => void) {
+  constructor(
+    enemy: Enemy,
+    onComplete: (winner: string) => void
+  ) {
     this.callback = undefined
     this.onComplete = onComplete
     this.enemy = enemy
