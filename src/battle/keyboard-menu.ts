@@ -1,4 +1,4 @@
-import KeyPressListener from '@/keyPressListener'
+import KeyPressListener from '@/key-press-listener'
 import {
   KeyboardMenuConfig,
   KeyboardMenuOption
