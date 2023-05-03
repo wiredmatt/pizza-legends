@@ -41,12 +41,11 @@ class ReplacementMenu {
         }
       }))
     })
-    this.keyboardMenu.init(container)
+    this.keyboardMenu.init(container!)
   }
 
   menuSubmit(replacement: Combatant) {
     this.keyboardMenu?.end() // End the previous menu
-    console.log(replacement)
     this.config.onComplete(replacement.data)
   }
 

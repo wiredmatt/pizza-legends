@@ -32,7 +32,9 @@ export const Pizzas = {
       // Actions.saucyStatus,
       Actions.clumsyStatus,
       Actions.damage1
-    ]
+    ],
+    hp: 100,
+    maxHp: 100
   },
   s002: {
     name: 'Bacon Brigade',
@@ -44,7 +46,9 @@ export const Pizzas = {
       // Actions.saucyStatus,
       Actions.clumsyStatus,
       Actions.damage1
-    ]
+    ],
+    hp: 100,
+    maxHp: 100
   },
   v001: {
     name: 'Call Me Kalle',
@@ -52,7 +56,9 @@ export const Pizzas = {
     type: 'veggie' as PizzasTypes,
     src: '/images/characters/pizzas/v001.png',
     icon: '/images/icons/veggie.png',
-    actions: [Actions.damage1]
+    actions: [Actions.damage1],
+    hp: 100,
+    maxHp: 100
   },
   f001: {
     name: 'Portobello Express',
@@ -60,6 +66,8 @@ export const Pizzas = {
     type: 'fungi' as PizzasTypes,
     src: '/images/characters/pizzas/f001.png',
     icon: '/images/icons/fungi.png',
-    actions: [Actions.damage1]
+    actions: [Actions.damage1],
+    hp: 100,
+    maxHp: 100
   }
 }

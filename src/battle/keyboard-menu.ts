@@ -30,6 +30,7 @@ export class LitMenu extends LitElement {
             html`
               <div class="option">
                 <button
+                  autofocus
                   data-button="${i}"
                   data-disabled="${!!option.disabled}"
                   data-description="${option.description}"
@@ -154,7 +155,6 @@ export class KeyboardMenu {
           })
 
           button.addEventListener('focus', e => {
-            console.log(button.dataset['button'])
             this.config.prevFocus = button
             this.descriptionElement.setText(
               button.dataset['description'] || ''
@@ -224,7 +224,7 @@ export class KeyboardMenu {
         }
       )
 
-      this.resetFocus()
+      // this.resetFocus()
     }
   }
 
@@ -243,16 +243,5 @@ export class KeyboardMenu {
       this.descriptionContainer || container
 
     descriptionContainer?.appendChild(this.descriptionElement)
-  }
-
-  setOptions(options: KeyboardMenuOption[]) {
-    this.config.options = options
-    this.element.options = options
-
-    this.element.updateComplete.then(() => {
-      console.log('COMPLETED')
-    })
-
-    this.element.requestUpdate()
   }
 }

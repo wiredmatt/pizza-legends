@@ -3,6 +3,7 @@ import { LitCombatantHUD, LitPizza } from './battle/combatant'
 import { LitDescription, LitMenu } from './battle/keyboard-menu'
 import { LitTeam } from './battle/team'
 import { enemies } from './content/enemies'
+import { LitCraftingMenu } from './crafting-menu'
 import { LitHUD } from './hud'
 import Overworld from './overworld'
 import { LitPauseMenu } from './pause-menu'
@@ -29,6 +30,7 @@ customElements.define('pl-description', LitDescription)
 customElements.define('pl-team', LitTeam)
 customElements.define('pl-ow-hud', LitHUD)
 customElements.define('pl-pause-menu', LitPauseMenu)
+customElements.define('pl-crafting-menu', LitCraftingMenu)
 
 const main = () => {
   const ow = new Overworld({

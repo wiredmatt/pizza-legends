@@ -17,7 +17,7 @@ export class PlayerState {
       player: {
         ...Pizzas['s001'],
         team: 'player',
-        hp: 1,
+        hp: 100,
         maxHp: 100,
         xp: 90,
         maxXp: 100,
@@ -82,5 +82,14 @@ export class PlayerState {
 
     this.lineup[index] = incoming
     utils.emitEvent('lineupChange', {})
+  }
+
+  addPizza(pizza: CombatantConfig) {
+    if (this.lineup.length < 6) {
+      this.pizzas[pizza.id] = pizza
+      this.lineup.push(pizza.id)
+
+      utils.emitEvent('lineupChange', {})
+    }
   }
 }

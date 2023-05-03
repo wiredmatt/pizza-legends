@@ -1,6 +1,7 @@
 import constants from '@/constants'
 import GameObject from '@/game-object'
 import Person from '@/person'
+import { PizzaStone } from '@/pizza-stone'
 import utils from '@/utils'
 import { GameMapConfig } from '@pl-types'
 import personAnimations from './animations/person'
@@ -94,22 +95,22 @@ const gameObjects = new Map<string, GameObject>([
       talking: [
         {
           events: [
-            // {
-            //   who: constants.NPC2,
-            //   type: 'textMessage',
-            //   text: "I'll slice you up!",
-            //   trigger: constants.HERO
-            // },
-            // {
-            //   type: 'battle',
-            //   who: constants.NPC2
-            // }
             {
               who: constants.NPC2,
               type: 'textMessage',
               text: "Bahaha! I'm the best!",
               trigger: constants.HERO,
               flag: 'TALKED_TO_ERIO'
+            },
+            {
+              who: constants.NPC2,
+              type: 'textMessage',
+              text: "I'll slice you up!",
+              trigger: constants.HERO
+            },
+            {
+              type: 'battle',
+              who: constants.NPC2
             }
           ]
         }
@@ -138,6 +139,14 @@ const gameObjects = new Map<string, GameObject>([
       //   }
       // ]
       // behaviourLoop: [{}]
+    })
+  ],
+  [
+    'pizzaStone',
+    new PizzaStone({
+      x: utils.withGrid(2),
+      y: utils.withGrid(7),
+      pizzas: ['v001', 'f001']
     })
   ]
 ])

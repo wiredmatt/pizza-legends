@@ -1,5 +1,6 @@
 import { Behaviour, GameEventConfig } from '@pl-types'
 import Battle from './battle/battle'
+import { CraftingMenu } from './crafting-menu'
 import GameMap from './game-map'
 import { PauseMenu } from './pause-menu'
 import Person from './person'
@@ -212,6 +213,17 @@ class GameEvent {
     if (!this.event.flag) return
     globalThis.playerState!.storyFlags[this.event.flag] = true
     return this.event.flag
+  }
+
+  craftingMenu(resolve: (value: unknown) => void) {
+    if (!this.event.pizzas) return
+
+    const menu = new CraftingMenu(this.event.pizzas, () => {
+      resolve('craftingMenu')
+      this.checkProgression()
+    })
+
+    menu.init(this.getContainer() as HTMLDivElement)
   }
 }
 

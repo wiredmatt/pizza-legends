@@ -5,6 +5,7 @@ import type {
   GameObjectState,
   Talking
 } from '@pl-types'
+import { Pizzas } from './content/pizzas'
 import GameEvent from './game-event'
 import GameMap from './game-map'
 import Sprite from './sprite'
@@ -20,6 +21,7 @@ class GameObject {
   behaviourLoopIndex = 0
   isStanding = false
   talking: Talking
+  pizzas?: (keyof typeof Pizzas)[] = []
 
   constructor(config: GameObjectConfig) {
     this.x = config.x
@@ -33,6 +35,7 @@ class GameObject {
     })
     this.behaviourLoop = config.behaviourLoop || []
     this.talking = config.talking || []
+    this.pizzas = config.pizzas || []
   }
 
   mount(map: GameMap) {

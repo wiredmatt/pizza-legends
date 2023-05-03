@@ -88,16 +88,9 @@ class GameMap {
 
       const result = await eventHandler.init()
 
-      console.log('r', result)
-
       if (event.type === 'battle' && result !== 'player') {
         console.log('You lost the battle')
         break
-      } else if (
-        event.type === 'battle' &&
-        result === 'player'
-      ) {
-        console.log('You won the battle')
       }
     }
 

@@ -15,7 +15,7 @@ export class LitPauseMenu extends LitElement {
   }
 
   render() {
-    return html`<div class="pause-menu">
+    return html`<div class="overlay-menu pause-menu">
       <h2>Pause Menu</h2>
     </div>`
   }

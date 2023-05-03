@@ -1,7 +1,7 @@
 import { BattleAnimations } from '@/battle/battle-animations'
 import Combatant from '@/battle/combatant'
 import { ActionItems, ActionType } from '@/content/actions'
-import { PizzasTypes } from '@/content/pizzas'
+import { Pizzas, PizzasTypes } from '@/content/pizzas'
 import GameMap from '@/game-map'
 import GameObject from '@/game-object'
 import KeyPressListener from '@/key-press-listener'
@@ -36,6 +36,7 @@ type GameObjectConfig = {
   animations?: { [key: string]: [number, number][] }
   behaviourLoop?: Behaviour[]
   talking?: Talking
+  pizzas?: (keyof typeof Pizzas)[]
 }
 
 type GameObjectState = {
@@ -113,6 +114,8 @@ type Behaviour = {
   team?: string
   xp?: number
   flag?: string
+  // keys of Pizzas
+  pizzas?: (keyof typeof Pizzas)[]
 }
 
 type Talking = {
@@ -130,7 +133,7 @@ type CombatantConfig = {
   hp?: number
   maxHp: number
   xp?: number
-  maxXp: number
+  maxXp?: number
   level: number
   status?: Status
   id: string

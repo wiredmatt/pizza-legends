@@ -139,7 +139,11 @@ class SubmissionMenu {
       options: options
     })
 
-    this.keyboardMenu.init(container)
+    this.keyboardMenu.init(container!)
+
+    setTimeout(() => {
+      this.keyboardMenu?.resetFocus()
+    }, 2) // hack to get around the fact that the menu is not yet in the DOM and hence autofocus doesn't work
   }
 
   menuSubmitReplacement(replacement: CombatantConfig) {
