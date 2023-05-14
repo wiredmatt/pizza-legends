@@ -9,6 +9,11 @@
 
 This is a [Pizza Legends](https://www.youtube.com/watch?v=fyi4vfbKEeo) clone made with [TypeScript](https://www.typescriptlang.org/) and [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
 
+
+This is not a fully featured game and it won't be. It's just a remake of Drew's Pizza Legends with Typescript, the sole idea of this project is to help web developers understand core game development concepts and functionalities (such as the game loop).
+
+Don't look much at the code lol, I thought it would've been possible to make this clean while keeping it as close as possible as he designed the original codebase; many improvements can be made but honestly I learned what I needed, completely recommend following his series on web game development.
+
 ## Available Commands
 
 | Command          | Description                                              |
