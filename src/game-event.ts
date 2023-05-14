@@ -161,7 +161,11 @@ class GameEvent {
       const transition = new SceneTransition()
 
       transition.init(container as HTMLDivElement, () => {
-        this.map.overworld?.changeMap(this.event.map)
+        this.map.overworld?.changeMap(this.event.map, {
+          x: this.event.x,
+          y: this.event.y,
+          direction: this.event.direction
+        })
         resolve(`chaged map to ${this.event.map}`)
         transition.fadeOut()
         this.checkProgression()
@@ -198,6 +202,7 @@ class GameEvent {
     this.map.isPaused = true
 
     this.pauseMenu = new PauseMenu({
+      progress: this.map.overworld?.progress!,
       onComplete: () => {
         this.map.isPaused = false
         this.map.overworld?.gameLoop()

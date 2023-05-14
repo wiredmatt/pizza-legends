@@ -1,5 +1,5 @@
 import constants from '@/constants'
-import GameObject from '@/gameObject'
+import GameObject from '@/game-object'
 import Person from '@/person'
 import utils from '@/utils'
 import { GameMapConfig } from '@pl-types'
@@ -43,7 +43,22 @@ const gameObjects = new Map<string, GameObject>([
 const map: GameMapConfig = {
   lowerSrc: constants.KITCHEN_LOWER_SPRITE,
   upperSrc: constants.KITCHEN_UPPER_SPRITE,
-  gameObjects
+  gameObjects,
+  cutsceneSpaces: {
+    [utils.asGridCoord(5, 10)]: [
+      {
+        events: [
+          {
+            type: 'changeMap',
+            map: 'Street',
+            x: utils.withGrid(29),
+            y: utils.withGrid(9),
+            direction: 'down'
+          }
+        ]
+      }
+    ]
+  }
 }
 
 export default map

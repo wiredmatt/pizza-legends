@@ -12,5 +12,7 @@ export default {
   DEMO_LOWER_SPRITE: '/images/maps/DemoLower.png',
   DEMO_UPPER_SPRITE: '/images/maps/DemoUpper.png',
   KITCHEN_LOWER_SPRITE: '/images/maps/KitchenLower.png',
-  KITCHEN_UPPER_SPRITE: '/images/maps/KitchenUpper.png'
+  KITCHEN_UPPER_SPRITE: '/images/maps/KitchenUpper.png',
+  STREET_LOWER_SPRITE: '/images/maps/StreetLower.png',
+  STREET_UPPER_SPRITE: '/images/maps/StreetUpper.png'
 }

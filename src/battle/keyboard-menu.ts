@@ -129,6 +129,12 @@ export class KeyboardMenu {
     this.descriptionContainer = descriptionContainer
   }
 
+  setOptions(options: KeyboardMenuOption[]) {
+    this.config.options = options
+    this.element.options = options
+    this.element.requestUpdate()
+  }
+
   resetFocus() {
     ;(
       this.element.querySelectorAll(

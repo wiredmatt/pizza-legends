@@ -204,7 +204,10 @@ const map: GameMapConfig = {
         events: [
           {
             type: 'changeMap',
-            map: 'Kitchen'
+            map: 'Kitchen',
+            x: utils.withGrid(2),
+            y: utils.withGrid(2),
+            direction: 'down'
           }
         ]
       }

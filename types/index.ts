@@ -116,6 +116,8 @@ type Behaviour = {
   flag?: string
   // keys of Pizzas
   pizzas?: (keyof typeof Pizzas)[]
+  x?: number
+  y?: number
 }
 
 type Talking = {
@@ -173,6 +175,14 @@ type KeyboardMenuConfig = {
   prevFocus?: HTMLButtonElement | null
 }
 
+type ProgressConfig = {
+  mapId: GameMaps
+  x: number
+  y: number
+  direction: Direction
+  saveFileKey: string
+}
+
 export type {
   Animations,
   Behaviour,
@@ -190,6 +200,7 @@ export type {
   KeyboardMenuOption,
   OwConfig,
   PersonAnimations,
+  ProgressConfig,
   SpriteConfig,
   SubmissionMenuConfig,
   Talking

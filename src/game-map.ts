@@ -4,6 +4,7 @@ import {
   Direction,
   GameMapConfig
 } from '@pl-types'
+import { GameMaps } from 'data/maps'
 import GameEvent from './game-event'
 import GameObject from './game-object'
 import Overworld from './overworld'
@@ -19,14 +20,16 @@ class GameMap {
   cutsceneSpaces: CutsceneSpaces
   overworld: Overworld | null
   isPaused: boolean = false
+  id: GameMaps
 
-  constructor(config: GameMapConfig) {
+  constructor(id: GameMaps, config: GameMapConfig) {
     this.gameObjects = config.gameObjects
-    this.walls = config.walls
+    this.walls = config.walls || {}
     this.lowerImage.src = config.lowerSrc
     this.upperImage.src = config.upperSrc
     this.cutsceneSpaces = config.cutsceneSpaces || {}
     this.overworld = null
+    this.id = id
   }
 
   drawLowerImage(

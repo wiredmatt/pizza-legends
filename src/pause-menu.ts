@@ -1,6 +1,7 @@
 import { LitElement, PropertyValueMap, html } from 'lit'
 import { KeyboardMenu } from './battle/keyboard-menu'
 import KeyPressListener from './key-press-listener'
+import { Progress } from './progress'
 
 export class LitPauseMenu extends LitElement {
   onElementReady: (element: HTMLDivElement) => void
@@ -35,6 +36,7 @@ export class LitPauseMenu extends LitElement {
 }
 
 type PauseMenuConfig = {
+  progress: Progress
   onComplete: () => void
 }
 
@@ -100,6 +102,14 @@ export class PauseMenu {
           label: 'Resume',
           description: 'Resume the game',
           handler: () => {
+            this.toggle()
+          }
+        },
+        {
+          label: 'Save',
+          description: 'Save the game',
+          handler: () => {
+            this.config.progress.save()
             this.toggle()
           }
         }

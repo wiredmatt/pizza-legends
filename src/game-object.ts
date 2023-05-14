@@ -38,6 +38,14 @@ class GameObject {
     this.pizzas = config.pizzas || []
   }
 
+  get position() {
+    return {
+      x: this.x,
+      y: this.y,
+      direction: this.direction
+    }
+  }
+
   mount(map: GameMap) {
     this.isMounted = true
     map.addWall(this.x, this.y)
