@@ -10,6 +10,7 @@ import { LitPauseMenu } from './pause-menu'
 import { LitScene } from './scene-transition'
 import { PlayerState } from './state/player-state'
 import { LitTextMessage } from './text-message'
+import { LitTitleMenu } from './title-menu'
 
 declare global {
   interface GlobalEventHandlersEventMap {
@@ -31,6 +32,7 @@ customElements.define('pl-team', LitTeam)
 customElements.define('pl-ow-hud', LitHUD)
 customElements.define('pl-pause-menu', LitPauseMenu)
 customElements.define('pl-crafting-menu', LitCraftingMenu)
+customElements.define('pl-title-menu', LitTitleMenu)
 
 const main = () => {
   const ow = new Overworld({

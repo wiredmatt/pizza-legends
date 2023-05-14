@@ -8,6 +8,7 @@ import GameObject from './game-object'
 import { HUD } from './hud'
 import KeyPressListener from './key-press-listener'
 import { Progress } from './progress'
+import { TitleMenu } from './title-menu'
 import utils from './utils'
 
 class Overworld {
@@ -27,6 +28,7 @@ class Overworld {
   delta = 0
   hud = new HUD()
   progress: Progress | null = null
+  titleMenu: TitleMenu | null = null
 
   constructor(config: OwConfig) {
     this.element = config.element
@@ -164,7 +166,7 @@ class Overworld {
     }
   }
 
-  init() {
+  async init() {
     this.changeMap('DemoRoom')
 
     this.progress = new Progress(
@@ -182,18 +184,28 @@ class Overworld {
 
     const wasSavedData = this.progress.load() // if there was a save file, load it
 
-    if (wasSavedData) {
-      this.changeMap(
-        this.progress.config.mapId,
-        this.progress.config
-      )
+    this.titleMenu = new TitleMenu(this.progress)
 
-      const hero = this.map?.gameObjects.get(constants.HERO)
+    const val = await this.titleMenu.init(
+      this.element as HTMLDivElement
+    )
 
-      if (hero) {
-        hero.direction = this.progress.config.direction
-        hero.x = this.progress.config.x
-        hero.y = this.progress.config.y
+    if (val === 'new-game') {
+      this.changeMap('DemoRoom')
+    } else {
+      if (wasSavedData) {
+        this.changeMap(
+          this.progress.config.mapId,
+          this.progress.config
+        )
+
+        const hero = this.map?.gameObjects.get(constants.HERO)
+
+        if (hero) {
+          hero.direction = this.progress.config.direction
+          hero.x = this.progress.config.x
+          hero.y = this.progress.config.y
+        }
       }
     }
 

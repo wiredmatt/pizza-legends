@@ -1,6 +1,6 @@
 import utils from '@/utils'
 import { Behaviour, CombatantConfig } from '@pl-types'
-import { html, LitElement, PropertyValueMap } from 'lit'
+import { LitElement, PropertyValueMap, html } from 'lit'
 import Battle from './battle'
 
 export class LitCombatantHUD extends LitElement {
@@ -31,7 +31,7 @@ export class LitCombatantHUD extends LitElement {
 
   get xpPercent() {
     return (
-      Math.floor((this.info.xp! / this.info.maxXp) * 100) || 0
+      Math.floor((this.info.xp! / this.info.maxXp!) * 100) || 0
     )
   }
 
